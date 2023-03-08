@@ -68,34 +68,58 @@ public class RegistrationActivity extends AppCompatActivity {
     String IMAGE_URL;
     int RC_SIGN_IN = 1;
     LoadingDialog loadingDialog;
+
+    RadioButton male,female;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-
         appData=new AppData(RegistrationActivity.this);
         loadingDialog=new LoadingDialog(RegistrationActivity.this);
 
-        if(!appData.isFirstTime()){
-            Intent intent=new Intent(RegistrationActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-
         IMAGE_URL= Constant.DEFAULT_IMAGE;
         uid=UUID.randomUUID().toString();
-
 
         propic=(CircleImageView) findViewById(R.id.propic);
         radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
         save=(Button) findViewById(R.id.save);
         username=(TextInputEditText) findViewById(R.id.username);
         dis=(TextInputEditText) findViewById(R.id.dis);
+        male=(RadioButton) findViewById(R.id.male);
+        female=(RadioButton) findViewById(R.id.female);
 
 
+        Boolean isSetting=getIntent().getBooleanExtra("isSetting",false);
 
+        if(!isSetting){
+            if(!appData.isFirstTime()){
+                Intent intent=new Intent(RegistrationActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }else{
+            propic.setBackgroundResource(0);
+            Glide.with(RegistrationActivity.this).load(appData.getMyImage()).apply(RequestOptions
+                            .bitmapTransform(new RoundedCorners(18)))
+                    .into(propic);
+
+            username.setText(appData.getMyName());
+            dis.setText(appData.getMyDis());
+
+            IMAGE_URL=appData.getMyImage();
+
+
+            if(appData.getMyGender().equals("Male")){
+                male.setChecked(true);
+                female.setChecked(false);
+            }else{
+                male.setChecked(false);
+                female.setChecked(true);
+            }
+
+        }
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

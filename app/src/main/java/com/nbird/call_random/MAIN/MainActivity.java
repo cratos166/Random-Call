@@ -3,6 +3,7 @@ package com.nbird.call_random.MAIN;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nbird.call_random.DATA.AppData;
 import com.nbird.call_random.MAIN.MODEL.OnlineModel;
 import com.nbird.call_random.R;
+import com.nbird.call_random.REGISTRATION.RegistrationActivity;
 import com.nbird.call_random.UNIVERSAL.UTILS.ConnectionStatus;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     String myName,myUID,myImage,myGender;
     ConnectionStatus connectionStatus;
 
+    LottieAnimationView profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         anyGender=(RadioButton) findViewById(R.id.anyGender);
         male=(RadioButton) findViewById(R.id.male);
         female=(RadioButton) findViewById(R.id.female);
+        profile=(LottieAnimationView) findViewById(R.id.profile);
+
 
         setLayoutUI();
 
@@ -72,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
         myUID=appData.getMyUID();
         myImage=appData.getMyImage();
         myGender=appData.getMyGender();
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+                intent.putExtra("isSetting",true);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         beginner.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        onlineSetter();
+     //   onlineSetter();
 
     }
 
