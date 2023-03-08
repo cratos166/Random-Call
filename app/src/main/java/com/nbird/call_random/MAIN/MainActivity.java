@@ -1,5 +1,6 @@
 package com.nbird.call_random.MAIN;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,10 +11,17 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nbird.call_random.DATA.AppData;
+import com.nbird.call_random.MAIN.MODEL.OnlineModel;
 import com.nbird.call_random.R;
+import com.nbird.call_random.UNIVERSAL.UTILS.ConnectionStatus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     String levelStr,genderStr;
     RadioButton anyGender,male,female;
 
+
+    ValueEventListener valueEventListener,connectionEventLisner;
+
+    String myName,myUID,myImage,myGender;
+    ConnectionStatus connectionStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         appData=new AppData(MainActivity.this);
+
 
         onlineSwitch=(Switch) findViewById(R.id.onlineSwitch);
         onlineStatus=(TextView) findViewById(R.id.onlineStatus);
@@ -50,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
         female=(RadioButton) findViewById(R.id.female);
 
         setLayoutUI();
+
+        connectionStatus=new ConnectionStatus(myUID);
+
+        myName=appData.getMyName();
+        myUID=appData.getMyUID();
+        myImage=appData.getMyImage();
+        myGender=appData.getMyGender();
 
 
         beginner.setOnClickListener(new View.OnClickListener() {
@@ -101,11 +123,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        onlineSetter();
+
     }
 
 
 
 
+    private void onlineSetter(){
+
+
+
+        OnlineModel onlineModel=new OnlineModel(myUID,1);
+        myRef.child("ONLINE").child(myUID).setValue(onlineModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                connectionStatus.myStatusSetter(connectionEventLisner);
+
+
+//                valueEventListener=new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                        try{
+//
+//
+//
+//                        }catch (Exception e){
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                };
+//
+//                myRef.child("ONLINE").child(myUID).addValueEventListener(valueEventListener);
+
+
+
+            }
+        });
+    }
 
 
 
