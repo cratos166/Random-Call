@@ -9,10 +9,11 @@
         <entry key="app/src/main/res/drawable/back2.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/back3.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/back4.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/next_button.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/uniform_nextbutton.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.2" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.4036458333333333" />
       </map>

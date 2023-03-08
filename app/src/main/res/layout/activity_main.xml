@@ -36,25 +36,75 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:fontFamily="@font/comfortaa"
-                android:shadowColor="@color/text_dis"
-                android:shadowRadius="1"
-                android:text="Speak English"
-                android:textColor="@color/text_head"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:shadowColor="@color/text_dis"
+                    android:shadowRadius="1"
+                    android:layout_weight="1"
+                    android:text="Speak English"
+                    android:textColor="@color/text_head"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="bottom"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/onlineStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comfortaa"
+                        android:shadowRadius="5"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:layout_marginRight="5dp"
+                        android:text="Online"
+                        android:textColor="@color/text_head"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/onlineSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:checked="true"
+                        android:layout_weight="1"
+
+                        />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@drawable/back3"
+                android:background="@drawable/back2"
                 android:layout_margin="15dp"
                 android:orientation="vertical">
 
@@ -65,8 +115,6 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="15dp"
-                    android:shadowRadius="3"
-                    android:shadowColor="@color/text_dis"
                     android:fontFamily="@font/comfortaa"
                     android:text="Practice Now"
                     android:textColor="@color/text_head"
@@ -82,15 +130,165 @@
                     <Button
                         android:id="@+id/beginner"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:background="@drawable/uniform_nextbutton"/>
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/uniform_nextbutton"
+                        android:fontFamily="@font/comfortaa"
+                        android:shadowRadius="5"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:text="Beginner"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_head"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/intermediate"
+                        android:shadowRadius="5"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:text="Intermediate"
+                        android:textAllCaps="false"
+                        android:textSize="10dp"
+                        android:textColor="@color/text_head"
+                        android:fontFamily="@font/comfortaa"
+                        android:background="@drawable/border"/>
+
+
+                    <Button
+                        android:id="@+id/advance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:shadowRadius="5"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="Advance"
+                        android:textSize="12dp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_head"
+                        android:fontFamily="@font/comfortaa"
+                        android:background="@drawable/border"/>
 
 
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/button_color" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:shadowRadius="3"
+                    android:shadowColor="@color/text_dis"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="Select the gender you want to talk"
+                    android:textColor="@color/text_head"
+                    android:textSize="13dp" />
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/anyGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:fontFamily="@font/comfortaa"
+                        android:text="Any"
+                        android:shadowRadius="1"
+                        android:shadowColor="@color/text_dis"
+                        android:textAlignment="center"
+                        android:textColor="@color/button_color"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comfortaa"
+                        android:text="Male"
+                        android:shadowRadius="1"
+                        android:shadowColor="@color/text_dis"
+                        android:textAlignment="center"
+                        android:textColor="@color/button_color"
+                        android:textSize="14dp" />
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:shadowRadius="1"
+                        android:shadowColor="@color/text_dis"
+                        android:fontFamily="@font/comfortaa"
+                        android:text="Female"
+                        android:textAlignment="center"
+                        android:textColor="@color/button_color"
+                        android:textSize="14dp" />
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/button_color" />
+
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="Call Now"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
+                    android:shadowRadius="5"
+                    android:fontFamily="@font/comfortaa"
+                    android:textAllCaps="false"
+                    android:shadowColor="@color/text_dis"
+                    android:shadowDx="-1"
+                    android:shadowDy="-1"
+                    android:textColor="@color/text_dis"
+                    android:background="@drawable/next_button" />
 
             </LinearLayout>
+
+
 
 
         </LinearLayout>

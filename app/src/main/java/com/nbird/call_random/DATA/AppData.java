@@ -99,6 +99,31 @@ public class AppData {
     }
 
 
+    public String getLevel(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        String value = sharedPreferences.getString("LEVEL","");
+        return value;
+    }
+
+    public void setLevel(String value){
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("LEVEL", value);
+        editor.commit();
+    }
+
+    public String getGenderPref(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        String value = sharedPreferences.getString("PREF_GENDER","");
+        return value;
+    }
+
+    public void setGenderPref(String value){
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("PREF_GENDER", value);
+        editor.commit();
+    }
 
 
 }

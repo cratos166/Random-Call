@@ -151,6 +151,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     appData.setMyUID(uid);
                     appData.setMyGender(radioSexButton.getText().toString());
                     appData.setMyDis(dis.getText().toString());
+                    appData.setGenderPref("ANY");
+                    appData.setLevel("BEGINNER");
 
                     Intent intent=new Intent(RegistrationActivity.this, MainActivity.class);
                     startActivity(intent);
