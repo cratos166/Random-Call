@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/backlitemodeanim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:scaleType="fitXY"
+        android:elevation="-20dp"
+        app:lottie_rawRes="@raw/background"
+        app:lottie_speed="1" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:shadowRadius="1"
+                android:shadowColor="@color/text_dis"
+                android:fontFamily="@font/comfortaa"
+                android:text="Speak English"
+                android:textColor="@color/text_head"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:shadowRadius="1"
+                android:shadowColor="@color/text_dis"
+                android:fontFamily="@font/comfortaa"
+                android:text="Hello there, Welcome"
+                android:textColor="@color/text_head"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/button_color" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:shadowRadius="3"
+                android:shadowColor="@color/text_dis"
+                android:fontFamily="@font/comfortaa"
+                android:text="Upload your photo (Optional)"
+                android:textColor="@color/text_head"
+                android:textSize="12dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/textMessage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                cardview:cardCornerRadius="50dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/propic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/default_user" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/button_color" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:shadowRadius="3"
+                android:shadowColor="@color/text_dis"
+                android:fontFamily="@font/comfortaa"
+                android:text="Enter your username*"
+                android:textColor="@color/text_head"
+                android:textSize="12dp" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:hint="Username"
+                android:textColorHint="@color/text_dis"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitle"
+                tools:ignore="MissingClass">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu"
+                    android:inputType="none"
+                    android:shadowRadius="3"
+                    android:shadowColor="@color/text_dis"
+                    android:nextFocusDown="@+id/textView2"
+                    android:singleLine="true"
+                    android:textColor="@color/text_dis"
+                    android:textSize="15dp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/button_color" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:shadowRadius="3"
+                android:shadowColor="@color/text_dis"
+                android:fontFamily="@font/comfortaa"
+                android:text="Select your gender*"
+                android:textColor="@color/text_head"
+                android:textSize="12dp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp">
+
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="Male"
+                    android:shadowRadius="1"
+                    android:shadowColor="@color/text_dis"
+                    android:textAlignment="center"
+                    android:textColor="@color/button_color"
+                    android:textSize="15dp" />
+
+                <!--adding a radio button -->
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:shadowRadius="1"
+                    android:shadowColor="@color/text_dis"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="Female"
+                    android:textAlignment="center"
+                    android:textColor="@color/button_color"
+                    android:textSize="15dp" />
+
+            </RadioGroup>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/button_color" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:shadowRadius="3"
+                android:shadowColor="@color/text_dis"
+                android:layout_marginRight="15dp"
+                android:fontFamily="@font/comfortaa"
+                android:text="Write a small description about yourself"
+                android:textColor="@color/text_head"
+                android:textSize="12dp" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:textColorHint="@color/text_dis"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitle"
+                tools:ignore="MissingClass">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu"
+                    android:gravity="top"
+                    android:hint="Description (Optional)"
+                    android:inputType="none"
+                    android:lines="4"
+                    android:shadowRadius="3"
+                    android:shadowColor="@color/text_dis"
+                    android:nextFocusDown="@+id/textView2"
+                    android:textColor="@color/text_dis"
+                    android:textSize="15dp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="NEXT"
+                android:shadowRadius="5"
+                android:shadowColor="@color/text_dis"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:textColor="@color/text_dis"
+                android:background="@drawable/next_button" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

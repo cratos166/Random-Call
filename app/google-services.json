@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "774698476211",
+    "project_id": "randomcall-a3596",
+    "storage_bucket": "randomcall-a3596.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774698476211:android:3fce6d457f3c9e6a8b46c6",
+        "android_client_info": {
+          "package_name": "com.example.callrandom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFfFDmJv-MQENxA15CGVucRgD58LP9EsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774698476211:android:e6ae52e473b1540c8b46c6",
+        "android_client_info": {
+          "package_name": "com.nbird.call_random"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFfFDmJv-MQENxA15CGVucRgD58LP9EsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774698476211:android:86e0452e25d8149e8b46c6",
+        "android_client_info": {
+          "package_name": "com.nbird.speakenglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774698476211-3ti3q6bh00ogtoqfakkea7kpau7q36pk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nbird.speakenglish",
+            "certificate_hash": "2d3f5a688c6832a6a21354af25a3c622b485aa45"
+          }
+        },
+        {
+          "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFfFDmJv-MQENxA15CGVucRgD58LP9EsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774698476211-j20n9o4ffd8qhm3t08mcjcb8brft4jqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

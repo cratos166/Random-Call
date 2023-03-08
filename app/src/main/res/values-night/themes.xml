@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.VTUSGPACalculator" parent="Theme.AppCompat.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#98A8D0</item>
+        <item name="colorPrimaryVariant">#98A8D0</item>
+        <item name="colorOnPrimary">#6A7592</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#98A8D0</item>
+        <item name="colorSecondaryVariant">#555B68</item>
+        <item name="colorOnSecondary">#555B68</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

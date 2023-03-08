@@ -1,0 +1,18 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/button_color</item>
+        <item name="colorPrimaryDark">@color/button_color</item>
+        <item name="colorAccent">@color/button_color</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
+    <style name="ThemeOverlay.titleColor" parent="">
+        <item name="android:textColorSecondary">@color/button_color</item>
+    </style>
+
+</resources>
