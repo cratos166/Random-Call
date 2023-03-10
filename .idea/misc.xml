@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/drawable/uniform_nextbutton.xml" value="0.225" />
         <entry key="app/src/main/res/layout/activity_call.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/activity_call_request.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_connection_waiter.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.2" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.4036458333333333" />

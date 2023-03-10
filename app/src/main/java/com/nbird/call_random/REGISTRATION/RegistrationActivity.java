@@ -106,9 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }else{
             propic.setBackgroundResource(0);
-            Glide.with(RegistrationActivity.this).load(appData.getMyImage()).apply(RequestOptions
-                            .bitmapTransform(new RoundedCorners(18)))
-                    .into(propic);
+            Glide.with(RegistrationActivity.this).load(appData.getMyImage()).into(propic);
 
             username.setText(appData.getMyName());
             dis.setText(appData.getMyDis());

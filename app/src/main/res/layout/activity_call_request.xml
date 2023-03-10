@@ -12,20 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:elevation="-20dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        android:scaleType="fitXY"
-        android:elevation="-20dp"
         app:lottie_rawRes="@raw/background"
         app:lottie_speed="1" />
-
-
-
-
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/propic"
@@ -57,6 +55,7 @@
 
 
     <TextView
+        android:id="@+id/dis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
