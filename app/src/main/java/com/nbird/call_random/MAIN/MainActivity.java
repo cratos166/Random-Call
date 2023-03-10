@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nbird.call_random.CALL.CallActivity;
+import com.nbird.call_random.CALL.MODEL.AgoraAccount;
+import com.nbird.call_random.CALL.MODEL.AgoraData;
 import com.nbird.call_random.DATA.AppData;
 import com.nbird.call_random.MAIN.MODEL.AgoraKeyModel;
 import com.nbird.call_random.MAIN.MODEL.OnlineModel;
@@ -161,39 +164,68 @@ public class MainActivity extends AppCompatActivity {
 
                 if(snapshot.getValue()!=null){
 
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
 
-                        try{
-                            OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
+                    try{
+                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+
+                            try{
+                                OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
 
 
-                            if(onlineModel.getStatus()==0){
-                                myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+                                if(onlineModel.getStatus()==0){
+                                    myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+                                    onlineSetter();
+                                    break;
+                                }else {
+                                    myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+
+
+
+                                    AgoraAccount agoraAccount=new AgoraAccount();
+                                    AgoraData data =agoraAccount.getRandomAgoraAcc();
+
+                                    String appId=data.getAppId();
+                                    String channelName=onlineModel.getUid();
+                                    String token=agoraAccount.generateToken(data,channelName);
+
+
+
+                                    //007eJxTYJiWW2o+eXX4p+S6BNNZf5WXvg9hXxgyL+hDwz6LxOmui+YoMBglmiaaGVoapRmZmJuYmhhYmJgbJScaJZknp1iamhsbbP/PldIQyMig2L+DiZEBAkF8JoaAAAYGABEpHjI=
+
+
+                                    //TODO CREATE ROOM KEY OF AGORA
+                                    AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),appId,channelName,token);
+                                    myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Intent intent=new Intent(MainActivity.this,CallActivity.class);
+                                            intent.putExtra("player1",myUID);
+                                            intent.putExtra("player2",onlineModel.getUid());
+                                            intent.putExtra("appId",appId);
+                                            intent.putExtra("token",token);
+                                            intent.putExtra("channel",channelName);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                                    break;
+                                }
+                            }catch (Exception e){
+
                                 onlineSetter();
-                                break;
-                            }else {
-                                myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
-                                //TODO CREATE ROOM KEY OF AGORA
-                                AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),"KEY");
-                                myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                                e.printStackTrace();
 
-                                    }
-                                });
-                                break;
+
                             }
-                        }catch (Exception e){
 
-
-                            e.printStackTrace();
 
 
                         }
-
-
-
+                    }catch (Exception e4){
+                        onlineSetter();
                     }
+
+
                 }else{
                     onlineSetter();
                 }
@@ -236,6 +268,20 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.i("myuid",agoraKeyModel.getPlayer1());
                             Log.i("oppouid",agoraKeyModel.getPlayer2());
+                            Log.i("appId",agoraKeyModel.getAppId());
+                            Log.i("token",agoraKeyModel.getToken());
+                            Log.i("channel",agoraKeyModel.getChannelName());
+
+
+
+                            Intent intent=new Intent(MainActivity.this,CallActivity.class);
+                            intent.putExtra("player1",agoraKeyModel.getPlayer1());
+                            intent.putExtra("player2",agoraKeyModel.getPlayer2());
+                            intent.putExtra("appId",agoraKeyModel.getAppId());
+                            intent.putExtra("token",agoraKeyModel.getToken());
+                            intent.putExtra("channel",agoraKeyModel.getChannelName());
+                            startActivity(intent);
+                            finish();
 
 
 

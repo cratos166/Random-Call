@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
+    <color name="red">#FF6450</color>
+    <color name="green">#48D96C</color>
+
     <color name="level_0">#2E323C</color>
     <color name="level_1">#303646</color>
     <color name="level_2">#39435C</color>

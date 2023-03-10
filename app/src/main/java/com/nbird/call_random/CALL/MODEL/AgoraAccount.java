@@ -3,6 +3,7 @@ package com.nbird.call_random.CALL.MODEL;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import agora.media.RtcTokenBuilder;
@@ -14,11 +15,6 @@ public class AgoraAccount {
     public AgoraAccount() {
 
     }
-
-
-
-
-
 
     public AgoraData getRandomAgoraAcc() {
         //zimmy changela
@@ -47,7 +43,8 @@ public class AgoraAccount {
     public  String generateToken(AgoraData agoraData, String channelName) {
         String accessToken;
         RtcTokenBuilder tokenBuilder = new RtcTokenBuilder();
-        int timeStamp = 1800;
+        Date date = new Date();
+        int timeStamp = (int) (date.getTime() / 1000 + 1800);
         accessToken = tokenBuilder.buildTokenWithUserAccount(agoraData.getAppId(), agoraData.getAppCertificate(), channelName, "", RtcTokenBuilder.Role.Role_Publisher, timeStamp);
         return accessToken;
     }

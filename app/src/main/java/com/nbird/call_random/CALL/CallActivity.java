@@ -45,18 +45,20 @@ public class CallActivity extends AppCompatActivity {
     };
 
     AgoraData data;
+    String player1UID,player2UID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
 
 
-        AgoraAccount agoraAccount=new AgoraAccount();
-        AgoraData data =agoraAccount.getRandomAgoraAcc();
+        appId=getIntent().getStringExtra("appId");
+        channelName=getIntent().getStringExtra("channel");
+        token=getIntent().getStringExtra("token");
+        player1UID=getIntent().getStringExtra("player1");
+        player2UID=getIntent().getStringExtra("player2");
 
-        appId=data.getAppId();
-        channelName="TRY";
-        token=agoraAccount.generateToken(data,channelName);
+
 
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID)) {
             initializeAndJoinChannel();

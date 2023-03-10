@@ -2,17 +2,18 @@ package com.nbird.call_random.MAIN.MODEL;
 
 public class AgoraKeyModel {
 
-    String player2,player1,roomKey;
+    String player2,player1,appId,channelName,token;
 
     public AgoraKeyModel() {
     }
 
-    public AgoraKeyModel(String myUID, String player1, String roomKey) {
-        this.player2 = myUID;
+    public AgoraKeyModel(String player2, String player1, String appId, String channelName, String token) {
+        this.player2 = player2;
         this.player1 = player1;
-        this.roomKey = roomKey;
+        this.appId = appId;
+        this.channelName = channelName;
+        this.token = token;
     }
-
 
     public String getPlayer2() {
         return player2;
@@ -30,11 +31,27 @@ public class AgoraKeyModel {
         this.player1 = player1;
     }
 
-    public String getRoomKey() {
-        return roomKey;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setRoomKey(String roomKey) {
-        this.roomKey = roomKey;
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

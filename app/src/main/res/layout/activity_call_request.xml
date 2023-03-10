@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MAIN.CallRequestActivity">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/backlitemodeanim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:scaleType="fitXY"
+        android:elevation="-20dp"
+        app:lottie_rawRes="@raw/background"
+        app:lottie_speed="1" />
+
+
+
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/propic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/default_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:shadowColor="@color/text_dis"
+        android:shadowRadius="1"
+        android:text=""
+        android:textColor="@color/text_head"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/propic"
+        app:layout_constraintStart_toStartOf="@+id/propic"
+        app:layout_constraintTop_toBottomOf="@+id/propic" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:shadowColor="@color/text_dis"
+        android:shadowRadius="3"
+        android:text=""
+        android:textColor="@color/text_head"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/decline"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/declineText"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/decline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/accept"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/acceptText"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/accept"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/declineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:shadowColor="@color/red"
+        android:shadowRadius="3"
+        android:text="Decline"
+        android:textColor="@color/red"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/decline"
+        app:layout_constraintStart_toStartOf="@+id/decline" />
+
+    <TextView
+        android:id="@+id/acceptText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:shadowColor="@color/green"
+        android:shadowRadius="3"
+        android:text="Accept"
+        android:textColor="@color/green"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/accept"
+        app:layout_constraintStart_toStartOf="@+id/accept" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
