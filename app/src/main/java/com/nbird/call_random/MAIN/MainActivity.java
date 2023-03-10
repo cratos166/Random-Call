@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nbird.call_random.DATA.AppData;
+import com.nbird.call_random.MAIN.MODEL.AgoraKeyModel;
 import com.nbird.call_random.MAIN.MODEL.OnlineModel;
 import com.nbird.call_random.R;
 import com.nbird.call_random.REGISTRATION.RegistrationActivity;
@@ -73,12 +76,14 @@ public class MainActivity extends AppCompatActivity {
 
         setLayoutUI();
 
-        connectionStatus=new ConnectionStatus(myUID);
+
 
         myName=appData.getMyName();
         myUID=appData.getMyUID();
         myImage=appData.getMyImage();
         myGender=appData.getMyGender();
+
+        connectionStatus=new ConnectionStatus(myUID);
 
 
         profile.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +146,70 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-     //   onlineSetter();
 
+        isAnyPlayerActive();
+
+
+
+    }
+
+
+    private void isAnyPlayerActive(){
+        myRef.child("ONLINE").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.getValue()!=null){
+
+                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+
+                        try{
+                            OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
+
+
+                            if(onlineModel.getStatus()==0){
+                                myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+                                onlineSetter();
+                                break;
+                            }else {
+                                myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+                                //TODO CREATE ROOM KEY OF AGORA
+                                AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),"KEY");
+                                myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+                                break;
+                            }
+                        }catch (Exception e){
+
+
+                            e.printStackTrace();
+
+
+                        }
+
+
+
+                    }
+                }else{
+                    onlineSetter();
+                }
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -159,27 +226,32 @@ public class MainActivity extends AppCompatActivity {
                 connectionStatus.myStatusSetter(connectionEventLisner);
 
 
-//                valueEventListener=new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                        try{
-//
-//
-//
-//                        }catch (Exception e){
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                };
-//
-//                myRef.child("ONLINE").child(myUID).addValueEventListener(valueEventListener);
+                valueEventListener=new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        try{
+
+                            AgoraKeyModel agoraKeyModel=snapshot.getValue(AgoraKeyModel.class);
+
+                            Log.i("myuid",agoraKeyModel.getPlayer1());
+                            Log.i("oppouid",agoraKeyModel.getPlayer2());
+
+
+
+                        }catch (Exception e){
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                };
+
+                myRef.child("AGORA_ROOM").child(myUID).addValueEventListener(valueEventListener);
 
 
 

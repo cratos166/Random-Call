@@ -95,6 +95,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if(!isSetting){
             if(!appData.isFirstTime()){
+
+                myRef.child("ONLINE").child(appData.getMyUID()).removeValue();
+                myRef.child("AGORA_ROOM").child(appData.getMyUID()).removeValue();
+
+
                 Intent intent=new Intent(RegistrationActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -118,6 +123,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 male.setChecked(false);
                 female.setChecked(true);
             }
+
+
+
 
         }
 
