@@ -70,7 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
     LoadingDialog loadingDialog;
 
     RadioButton male,female;
-
+    Boolean isSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
         loadingDialog=new LoadingDialog(RegistrationActivity.this);
 
         IMAGE_URL= Constant.DEFAULT_IMAGE;
-        uid=UUID.randomUUID().toString();
+
 
         propic=(CircleImageView) findViewById(R.id.propic);
         radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
@@ -91,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
         female=(RadioButton) findViewById(R.id.female);
 
 
-        Boolean isSetting=getIntent().getBooleanExtra("isSetting",false);
+        isSetting=getIntent().getBooleanExtra("isSetting",false);
 
         if(!isSetting){
             if(!appData.isFirstTime()){
@@ -103,6 +103,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 Intent intent=new Intent(RegistrationActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
+            }else{
+                uid=UUID.randomUUID().toString();
             }
         }else{
             propic.setBackgroundResource(0);
@@ -122,7 +124,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 female.setChecked(true);
             }
 
-
+            uid=appData.getMyUID();
 
 
         }
@@ -184,9 +186,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     appData.setGenderPref("ANY");
                     appData.setLevel("BEGINNER");
 
-                    Intent intent=new Intent(RegistrationActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if(isSetting){
+                        finish();
+                    }else{
+                        Intent intent=new Intent(RegistrationActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }
             }
         });
@@ -359,6 +366,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
+    }
 
+
+    public void onBackPressed(){
+
+    }
 
 }

@@ -34,7 +34,7 @@ public class CallRequestActivity extends AppCompatActivity {
     DatabaseReference myRef = database.getReference();
 
     String appId,channelName,token;
-    String player1UID,player2UID;
+    String player1UID,player2UID,mainUID;
 
 
     CircleImageView propic;
@@ -54,6 +54,7 @@ public class CallRequestActivity extends AppCompatActivity {
         token=getIntent().getStringExtra("token");
         player1UID=getIntent().getStringExtra("player1");
         player2UID=getIntent().getStringExtra("player2");
+        mainUID=getIntent().getStringExtra("mainUID");
 
 
         propic=(CircleImageView) findViewById(R.id.propic);
@@ -86,6 +87,7 @@ public class CallRequestActivity extends AppCompatActivity {
                         intent.putExtra("appId",appId);
                         intent.putExtra("token",token);
                         intent.putExtra("channel",channelName);
+                        intent.putExtra("mainUID",mainUID);
                         startActivity(intent);
                         finish();
                     }
@@ -148,7 +150,11 @@ public class CallRequestActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
+    }
 
 
 }

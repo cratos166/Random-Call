@@ -16,14 +16,22 @@ public class ConnectionStatus {
     DatabaseReference myRef = database.getReference();
 
     String myUID;
+    DatabaseReference connectedRef = database.getReference(".info/connected");
 
-    public ConnectionStatus(String myUID) {
+    ValueEventListener myCallvalueEventListener,valueEventListener;
+
+    public ConnectionStatus(String myUID,ValueEventListener valueEventListener) {
         this.myUID=myUID;
+        this.valueEventListener=valueEventListener;
+    }
+
+    public ConnectionStatus(ValueEventListener myCallvalueEventListener){
+        this.myCallvalueEventListener=myCallvalueEventListener;
     }
 
 
-    public void myStatusSetter(ValueEventListener valueEventListener){
-        DatabaseReference connectedRef = database.getReference(".info/connected");
+    public void myStatusSetter(){
+
 
         valueEventListener=new ValueEventListener() {
             @Override
@@ -50,5 +58,57 @@ public class ConnectionStatus {
 
 
     }
+
+
+    public void myCallConnecterStatus(String mainUID){
+
+
+        myCallvalueEventListener=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    myRef.child("AGORA_ROOM").child(mainUID).child("callOver").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
+                    myRef.child("AGORA_ROOM").child(mainUID).child("callOver").onDisconnect().setValue(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        connectedRef.addValueEventListener(myCallvalueEventListener);
+
+
+    }
+
+    public void removeListner(){
+
+        try{
+            connectedRef.removeEventListener(valueEventListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void removeConnectionMyCall(){
+
+        try{
+            connectedRef.removeEventListener(myCallvalueEventListener);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 
 }

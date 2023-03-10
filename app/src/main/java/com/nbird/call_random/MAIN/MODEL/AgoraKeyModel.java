@@ -4,6 +4,7 @@ public class AgoraKeyModel {
 
     String player2,player1,appId,channelName,token;
     int accept;
+    boolean callOver;
 
     //0->not answered
     //1->accept
@@ -14,13 +15,23 @@ public class AgoraKeyModel {
     public AgoraKeyModel() {
     }
 
-    public AgoraKeyModel(String player2, String player1, String appId, String channelName, String token,int accept) {
+
+    public AgoraKeyModel(String player2, String player1, String appId, String channelName, String token, int accept) {
         this.player2 = player2;
         this.player1 = player1;
         this.appId = appId;
         this.channelName = channelName;
         this.token = token;
-        this.accept=accept;
+        this.accept = accept;
+        this.callOver = false;
+    }
+
+    public boolean isCallOver() {
+        return callOver;
+    }
+
+    public void setCallOver(boolean callOver) {
+        this.callOver = callOver;
     }
 
     public int getAccept() {

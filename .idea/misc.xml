@@ -10,10 +10,13 @@
         <entry key="app/src/main/res/drawable/back3.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/back4.xml" value="0.224" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/next_button.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/phone.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/uniform_nextbutton.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/activity_call.xml" value="0.19630192502532928" />
+        <entry key="app/src/main/res/drawable/uniform_nextbutton_less.xml" value="0.2265" />
+        <entry key="app/src/main/res/layout/activity_call.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_call_request.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_connection_waiter.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
