@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     isAnyPlayerActive();
                 }else{
                     myRef.child("ONLINE").child(myUID).removeValue();
+                    connectionStatus.removeListner();
+                    myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
                 }
             }
         });

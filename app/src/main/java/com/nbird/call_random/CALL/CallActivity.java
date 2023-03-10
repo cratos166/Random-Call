@@ -130,10 +130,10 @@ public class CallActivity extends AppCompatActivity {
 
         if(appData.getMyName().equals(player1UID)){
 
-            uiManu(player2UID);
+            uiManu(player1UID);
 
         }else{
-            uiManu(player1UID);
+            uiManu(player2UID);
         }
 
 
