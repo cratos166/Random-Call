@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +44,9 @@ public class CallRequestActivity extends AppCompatActivity {
     LoadingDialog loadingDialog;
 
     SongSetting songSetting;
+
+    CountDownTimer countDownTimer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +74,24 @@ public class CallRequestActivity extends AppCompatActivity {
         songSetting=new SongSetting(CallRequestActivity.this);
 
 
+        countDownTimer=new CountDownTimer(20*1000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                intent(3);
+            }
+        }.start();
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingDialog.showLoadingDialog();
                 songSetting.songStop();
-                myRef.child("AGORA_ROOM").child(player2UID).child("accept").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                myRef.child("AGORA_ROOM").child(mainUID).child("accept").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
@@ -100,21 +115,8 @@ public class CallRequestActivity extends AppCompatActivity {
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingDialog.showLoadingDialog();
-                songSetting.songStop();
-                myRef.child("AGORA_ROOM").child(player2UID).child("accept").setValue(2).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
 
-                        loadingDialog.dismissLoadingDialog();
-
-                        Intent intent = new Intent(CallRequestActivity.this, MainActivity.class);
-                        intent.putExtra("previousUID",player1UID);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
+                intent(2);
 
             }
         });
@@ -147,6 +149,23 @@ public class CallRequestActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void intent(int response){
+        loadingDialog.showLoadingDialog();
+        songSetting.songStop();
+        myRef.child("AGORA_ROOM").child(mainUID).child("accept").setValue(response).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                loadingDialog.dismissLoadingDialog();
+
+                Intent intent = new Intent(CallRequestActivity.this, MainActivity.class);
+                intent.putExtra("previousUID",player1UID);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 

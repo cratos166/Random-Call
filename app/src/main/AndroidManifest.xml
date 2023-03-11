@@ -22,8 +22,11 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".MAIN.CallRequestActivity"
+            android:name=".MAIN.CallNowActivity"
             android:exported="false" />
+        <activity
+            android:name=".MAIN.CallRequestActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".CALL.CallActivity"
             android:exported="true" />

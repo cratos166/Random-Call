@@ -3,8 +3,11 @@ package com.nbird.call_random.MAIN;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     LottieAnimationView profile;
 
     String previousUID;
+
+    boolean userGot=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,120 +162,158 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        isAnyPlayerActive();
+        onlineSetter();
 
         onlineSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(onlineSwitch.isChecked()){
-                    isAnyPlayerActive();
+                    onlineSetter();
+                    onlineStatus.setText("Online");
                 }else{
+                    onlineStatus.setText("Offline");
                     myRef.child("ONLINE").child(myUID).removeValue();
                     connectionStatus.removeListner();
                     myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
                 }
+
             }
         });
 
-    }
 
 
-    private void isAnyPlayerActive(){
-        myRef.child("ONLINE").addListenerForSingleValueEvent(new ValueEventListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if(snapshot.getValue()!=null){
+            public void onClick(View v) {
 
 
-                    try{
-                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                myRef.child("ONLINE").child(myUID).removeValue();
 
-                            try{
-                                OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
+                try{
+                    connectionStatus.removeListner();
+                }catch (Exception e){
 
-
-                                if(onlineModel.getStatus()==0){
-                                    myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
-                                    onlineSetter();
-                                    break;
-                                }else {
-
-                                        if(!onlineModel.getUid().equals(previousUID)){
-                                            myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
-
-
-
-                                            AgoraAccount agoraAccount=new AgoraAccount();
-                                            AgoraData data =agoraAccount.getRandomAgoraAcc();
-
-                                            String appId=data.getAppId();
-                                            String channelName=onlineModel.getUid();
-                                            String token=agoraAccount.generateToken(data,channelName);
-
-
-                                            AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),appId,channelName,token,0);
-                                            myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-
-
-                                                    connectionStatus.removeListner();
-                                                    Intent intent=new Intent(MainActivity.this,CallRequestActivity.class);
-                                                    intent.putExtra("player1",myUID);
-                                                    intent.putExtra("player2",onlineModel.getUid());
-                                                    intent.putExtra("appId",appId);
-                                                    intent.putExtra("token",token);
-                                                    intent.putExtra("channel",channelName);
-                                                    intent.putExtra("mainUID",onlineModel.getUid());
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            });
-                                            break;
-                                        }else{
-                                            onlineSetter();
-                                            break;
-                                        }
-
-
-
-
-
-                                }
-                            }catch (Exception e){
-
-                                onlineSetter();
-                                e.printStackTrace();
-
-
-                            }
-
-
-
-                        }
-                    }catch (Exception e4){
-                        onlineSetter();
-                    }
-
-
-                }else{
-                    onlineSetter();
                 }
 
+                try{
+                    myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
+                }catch (Exception e){
 
+                }
 
+                Intent intent=new Intent(MainActivity.this,CallNowActivity.class);
+                intent.putExtra("previousUID",previousUID);
+                startActivity(intent);
+                finish();
 
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
     }
+
+
+//    private void isAnyPlayerActive(){
+//        myRef.child("ONLINE").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                if(snapshot.getValue()!=null){
+//
+//
+//                    try{
+//                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+//
+//                            try{
+//                                OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
+//
+//
+//                                if(onlineModel.getStatus()==0){
+//                                    myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+//                                }else {
+//
+//                                    if(!onlineModel.getUid().equals(myUID)){
+//                                        if(!onlineModel.getUid().equals(previousUID)){
+//
+//                                            userGot=true;
+//
+//                                            myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
+//
+//                                            AgoraAccount agoraAccount=new AgoraAccount();
+//                                            AgoraData data =agoraAccount.getRandomAgoraAcc();
+//
+//                                            String appId=data.getAppId();
+//                                            String channelName=onlineModel.getUid();
+//                                            String token=agoraAccount.generateToken(data,channelName);
+//
+//                                            AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),appId,channelName,token,0);
+//                                            myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<Void> task) {
+//
+//                                                    connectionStatus.removeListner();
+//                                                    Intent intent=new Intent(MainActivity.this,CallRequestActivity.class);
+//
+//                                                    intent.putExtra("player1",myUID);
+//                                                    intent.putExtra("player2",onlineModel.getUid());
+//                                                    intent.putExtra("appId",appId);
+//                                                    intent.putExtra("token",token);
+//                                                    intent.putExtra("channel",channelName);
+//                                                    intent.putExtra("mainUID",onlineModel.getUid());
+//
+//                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//
+//                                                    startActivity(intent);
+//                                                    finish();
+//
+//                                                }
+//                                            });
+//                                            break;
+//                                        }else{
+//
+//                                        }
+//                                    }else{
+//
+//                                        myRef.child("ONLINE").child(myUID).removeValue();
+//
+//
+//                                    }
+//
+//
+//
+//
+//                                }
+//                            }catch (Exception e){
+//
+//                                onlineSetter();
+//                                e.printStackTrace();
+//
+//                            }
+//
+//                        }
+//                        if(!userGot){
+//                            onlineSetter();
+//                        }
+//
+//
+//                    }catch (Exception e4){
+//                        onlineSetter();
+//                    }
+//
+//
+//                }else{
+//                    onlineSetter();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
 
 
@@ -300,39 +344,18 @@ public class MainActivity extends AppCompatActivity {
                             Log.i("channel",agoraKeyModel.getChannelName());
 
 
-
-                            if(agoraKeyModel.getAccept()==1){
                                 connectionStatus.removeListner();
                                 myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
-                                Intent intent=new Intent(MainActivity.this,CallActivity.class);
+                                Intent intent=new Intent(MainActivity.this,CallRequestActivity.class);
                                 intent.putExtra("player1",agoraKeyModel.getPlayer1());
                                 intent.putExtra("player2",agoraKeyModel.getPlayer2());
                                 intent.putExtra("appId",agoraKeyModel.getAppId());
                                 intent.putExtra("token",agoraKeyModel.getToken());
                                 intent.putExtra("channel",agoraKeyModel.getChannelName());
                                 intent.putExtra("mainUID",myUID);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 finish();
-                            }else if(agoraKeyModel.getAccept()==2){
-
-                                myRef.child("AGORA_ROOM").child(myUID).removeValue();
-
-                                try{
-                                    myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
-                                }catch (Exception e){
-
-                                }
-
-
-                                if(onlineSwitch.isChecked()){
-                                    isAnyPlayerActive();
-                                }
-
-
-                            }
-
-
-
 
 
                         }catch (Exception e){

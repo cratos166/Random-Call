@@ -128,12 +128,12 @@ public class CallActivity extends AppCompatActivity {
         micImage=(ImageView) findViewById(R.id.micImage);
 
 
-        if(appData.getMyName().equals(player1UID)){
+        if(appData.getMyUID().equals(player1UID)){
 
-            uiManu(player1UID);
+            uiManu(player2UID);
 
         }else{
-            uiManu(player2UID);
+            uiManu(player1UID);
         }
 
 
