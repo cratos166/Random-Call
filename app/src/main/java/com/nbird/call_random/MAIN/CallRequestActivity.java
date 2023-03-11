@@ -91,6 +91,13 @@ public class CallRequestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingDialog.showLoadingDialog();
                 songSetting.songStop();
+
+                try{
+                    countDownTimer.cancel();
+                }catch (Exception e){
+
+                }
+
                 myRef.child("AGORA_ROOM").child(mainUID).child("accept").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -154,6 +161,13 @@ public class CallRequestActivity extends AppCompatActivity {
     public void intent(int response){
         loadingDialog.showLoadingDialog();
         songSetting.songStop();
+
+        try{
+            countDownTimer.cancel();
+        }catch (Exception e){
+
+        }
+
         myRef.child("AGORA_ROOM").child(mainUID).child("accept").setValue(response).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

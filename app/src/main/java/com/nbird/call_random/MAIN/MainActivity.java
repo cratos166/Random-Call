@@ -1,14 +1,21 @@
 package com.nbird.call_random.MAIN;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -91,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
         setLayoutUI();
 
 
+        try{
+            noInternet();
+        }catch (Exception e){
 
+        }
 
 
         myName=appData.getMyName();
@@ -214,107 +225,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void isAnyPlayerActive(){
-//        myRef.child("ONLINE").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                if(snapshot.getValue()!=null){
-//
-//
-//                    try{
-//                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-//
-//                            try{
-//                                OnlineModel onlineModel=dataSnapshot.getValue(OnlineModel.class);
-//
-//
-//                                if(onlineModel.getStatus()==0){
-//                                    myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
-//                                }else {
-//
-//                                    if(!onlineModel.getUid().equals(myUID)){
-//                                        if(!onlineModel.getUid().equals(previousUID)){
-//
-//                                            userGot=true;
-//
-//                                            myRef.child("ONLINE").child(onlineModel.getUid()).removeValue();
-//
-//                                            AgoraAccount agoraAccount=new AgoraAccount();
-//                                            AgoraData data =agoraAccount.getRandomAgoraAcc();
-//
-//                                            String appId=data.getAppId();
-//                                            String channelName=onlineModel.getUid();
-//                                            String token=agoraAccount.generateToken(data,channelName);
-//
-//                                            AgoraKeyModel agoraKeyModel=new AgoraKeyModel(myUID,onlineModel.getUid(),appId,channelName,token,0);
-//                                            myRef.child("AGORA_ROOM").child(onlineModel.getUid()).setValue(agoraKeyModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<Void> task) {
-//
-//                                                    connectionStatus.removeListner();
-//                                                    Intent intent=new Intent(MainActivity.this,CallRequestActivity.class);
-//
-//                                                    intent.putExtra("player1",myUID);
-//                                                    intent.putExtra("player2",onlineModel.getUid());
-//                                                    intent.putExtra("appId",appId);
-//                                                    intent.putExtra("token",token);
-//                                                    intent.putExtra("channel",channelName);
-//                                                    intent.putExtra("mainUID",onlineModel.getUid());
-//
-//                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//                                                    startActivity(intent);
-//                                                    finish();
-//
-//                                                }
-//                                            });
-//                                            break;
-//                                        }else{
-//
-//                                        }
-//                                    }else{
-//
-//                                        myRef.child("ONLINE").child(myUID).removeValue();
-//
-//
-//                                    }
-//
-//
-//
-//
-//                                }
-//                            }catch (Exception e){
-//
-//                                onlineSetter();
-//                                e.printStackTrace();
-//
-//                            }
-//
-//                        }
-//                        if(!userGot){
-//                            onlineSetter();
-//                        }
-//
-//
-//                    }catch (Exception e4){
-//                        onlineSetter();
-//                    }
-//
-//
-//                }else{
-//                    onlineSetter();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
 
 
 
@@ -426,6 +336,76 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Runtime.getRuntime().gc();
+    }
+
+    private void noInternet(){
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+
+
+        }
+        else {
+
+
+            noInternetDialog();
+
+
+        }
+    }
+
+    private void noInternetDialog(){
+
+
+
+        AlertDialog.Builder builderRemove=new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogTheme);
+        View viewRemove1= LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_model_1,(ConstraintLayout) findViewById(R.id.layoutDialogContainer),false);
+        builderRemove.setView(viewRemove1);
+        builderRemove.setCancelable(false);
+        Button button=(Button) viewRemove1.findViewById(R.id.button);
+
+        TextView textTitle=(TextView) viewRemove1.findViewById(R.id.textTitle);
+        textTitle.setText("No Internet");
+
+
+        TextView textDis=(TextView) viewRemove1.findViewById(R.id.textDis);
+        textDis.setText("This app requires internet connection to make calls. Please connect with internet and retry again.");
+
+        LottieAnimationView anim=(LottieAnimationView)  viewRemove1.findViewById(R.id.anim);
+        anim.setAnimation(R.raw.no_internet);
+        anim.playAnimation();
+        anim.loop(true);
+
+
+
+        button.setText("OKAY");
+
+        final AlertDialog alertDialog=builderRemove.create();
+        if(alertDialog.getWindow()!=null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        try{
+            alertDialog.show();
+        }catch (Exception e){
+
+        }
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
     }
 
 }

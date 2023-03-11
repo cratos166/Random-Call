@@ -225,7 +225,7 @@ public class CallNowActivity extends AppCompatActivity {
                                                                     }catch (Exception e){
 
                                                                     }
-                                                                    name.setText("CONNECTING\nPLEASE WAIT!");
+                                                                    name.setText("CONNECTING\nPLEASE WAIT !");
                                                                     decline.setVisibility(View.VISIBLE);
                                                                     declineText.setVisibility(View.VISIBLE);
                                                                     cc();

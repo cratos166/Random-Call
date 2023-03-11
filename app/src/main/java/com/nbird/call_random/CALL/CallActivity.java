@@ -214,8 +214,7 @@ public class CallActivity extends AppCompatActivity {
                         intentFun();
                     }
                 }catch (Exception e){
-
-                    Toast.makeText(CallActivity.this, "User disconnected the call", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CallActivity.this, "User disconnected the call.", Toast.LENGTH_LONG).show();
                     intentFun();
                 }
 
@@ -240,13 +239,10 @@ public class CallActivity extends AppCompatActivity {
         loadingDialog.showLoadingDialog();
         myRef.child("AGORA_ROOM").child(mainUID).child("callOver").removeEventListener(valueEventListener);
         connectionStatus.removeConnectionMyCall();
-
-
         try{mRtcEngine.leaveChannel();}catch (Exception e){}
         myRef.child("AGORA_ROOM").child(mainUID).removeValue();
         Intent intent=new Intent(CallActivity.this, MainActivity.class);
         startActivity(intent);
-
     }
 
 
@@ -262,14 +258,14 @@ public class CallActivity extends AppCompatActivity {
                     }else{
                         minutestext=String.valueOf(minutes);
                     }
-                    second=59;
+
                     if(second<10){
                         secondtext="0"+String.valueOf(second);
                     }else{
                         secondtext=String.valueOf(second);
                     }
                     callTimer.setText(minutestext+" Min :"+secondtext+" Sec");
-
+                    second=59;
                 }else{
                     if(minutes<10){
                         minutestext="0"+String.valueOf(minutes);
@@ -291,6 +287,9 @@ public class CallActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                Toast.makeText(CallActivity.this, "Call time over", Toast.LENGTH_LONG).show();
+                intentFun();
+
 
             }
         }.start();
