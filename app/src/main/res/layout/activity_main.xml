@@ -23,6 +23,18 @@
         app:lottie_speed="1" />
 
 
+    <!--     @layout/gnt_medium_template_view -->
+    <!--     @layout/gnt_small_template_view -->
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/my_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,6 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,7 +68,7 @@
                     android:shadowColor="@color/text_dis"
                     android:shadowRadius="1"
                     android:layout_weight="1"
-                    android:text="Speak English"
+                    android:text="Random Call"
                     android:textColor="@color/text_head"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -75,12 +89,12 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa"
                         android:shadowRadius="5"
-                        android:shadowColor="@color/text_dis"
+                        android:shadowColor="@color/green"
                         android:shadowDx="-1"
                         android:shadowDy="-1"
                         android:layout_marginRight="5dp"
                         android:text="Online"
-                        android:textColor="@color/text_head"
+                        android:textColor="@color/green"
                         android:textSize="10dp"
                         android:textStyle="bold" />
 
@@ -103,7 +117,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/back2"
                 android:layout_margin="15dp">
 
@@ -112,9 +126,10 @@
                     android:layout_width="50dp"
                     android:layout_height="51dp"
                     android:layout_gravity="center"
-                    android:visibility="visible"
-                    android:scaleType="fitXY"
+                    android:layout_marginBottom="15dp"
                     android:elevation="50dp"
+                    android:scaleType="fitXY"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:lottie_autoPlay="true"
@@ -140,6 +155,34 @@
                     android:text="Practice Now"
                     android:textColor="@color/text_head"
                     android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="left"
+                        android:visibility="visible"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowRadius="3"
+                        android:text="If its taking too long to connect that means no user is available online. Enable online switch in the top right corner of the screen and keep the app in background and do some other work. As soon as some other user comes online you will get a call automatically."
+                        android:textColor="@color/text_head"
+                        android:textSize="8dp"
+                        android:fontFamily="@font/ubuntu"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/button_color" />
 
 
                 <LinearLayout
@@ -299,6 +342,7 @@
                     android:scaleX="0.75"
                     android:scaleY="0.75"
                     android:shadowRadius="5"
+                    android:layout_marginBottom="15dp"
                     android:fontFamily="@font/comfortaa"
                     android:textAllCaps="false"
                     android:shadowColor="@color/text_dis"

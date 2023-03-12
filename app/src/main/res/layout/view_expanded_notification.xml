@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <RelativeLayout
+        android:id="@+id/icon_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/big_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="1dp"
+            android:src="@drawable/default_user" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/notification_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/icon_container"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="6dp">
+
+        <TextView
+            android:id="@+id/content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa"
+            android:textColor="@color/text_head"
+            android:textSize="15dp"
+            android:text="Notification Sample App"
+           />
+
+        <TextView
+            android:id="@+id/content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa"
+            android:textColor="@color/text_dis"
+            android:textSize="12dp"
+            android:text="Expand me to see a detailed message!"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/notification_main"
+        android:layout_toRightOf="@+id/icon_container"
+       >
+
+
+        <Button
+            android:id="@+id/left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="13dp"
+            android:textColor="@color/text_dis"
+            android:background="@drawable/red_button"
+            android:text="REJECT"
+            />
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="13dp"
+            android:fontFamily="@font/comfortaa"
+            android:textColor="@color/text_dis"
+            android:background="@drawable/green_button"
+            android:text="Accept"
+           />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:paddingTop="8dp"
+        android:paddingRight="3.5dp" />
+
+</RelativeLayout>

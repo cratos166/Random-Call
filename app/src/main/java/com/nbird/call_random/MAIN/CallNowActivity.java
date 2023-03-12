@@ -13,6 +13,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +34,7 @@ import com.nbird.call_random.CALL.CallActivity;
 import com.nbird.call_random.CALL.MODEL.AgoraAccount;
 import com.nbird.call_random.CALL.MODEL.AgoraData;
 import com.nbird.call_random.DATA.AppData;
+import com.nbird.call_random.DATA.Constant;
 import com.nbird.call_random.MAIN.MODEL.AgoraKeyModel;
 import com.nbird.call_random.MAIN.MODEL.OnlineModel;
 import com.nbird.call_random.R;
@@ -46,6 +57,45 @@ public class CallNowActivity extends AppCompatActivity {
     ValueEventListener valueEventListener;
     CardView decline;
     Boolean userGot=false;
+    AdView mAdView1,mAdView2;
+    CountDownTimer timer;
+
+
+    private InterstitialAd mInterstitialAd;
+    private void loadAds(){
+
+
+        String key= Constant.INTERSTITIAL_ID;
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, key, adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i("TAG", "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d("TAG", loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
+
+
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +105,19 @@ public class CallNowActivity extends AppCompatActivity {
         
         appData=new AppData(CallNowActivity.this);
 
+        loadAds();
+
+
+
+        mAdView1 = findViewById(R.id.adView1);
+        mAdView1.setVisibility(View.VISIBLE);
+        AdRequest adRequest1 = new AdRequest.Builder().build();
+        mAdView1.loadAd(adRequest1);
+
+        mAdView2 = findViewById(R.id.adView2);
+        mAdView2.setVisibility(View.VISIBLE);
+        AdRequest adRequest2 = new AdRequest.Builder().build();
+        mAdView2.loadAd(adRequest2);
 
         
 
@@ -73,12 +136,7 @@ public class CallNowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try{countDownTimer.cancel();}catch (Exception e){}
-
-                try{ myRef.child("AGORA_ROOM").child(appData.getMyUID()).removeEventListener(valueEventListener);}catch (Exception e){}
-
-                Intent intent=new Intent(CallNowActivity.this, MainActivity.class);
-                startActivity(intent);
+                adShow();
 
             }
         });
@@ -90,7 +148,7 @@ public class CallNowActivity extends AppCompatActivity {
 
         isAnyPlayerActive();
 
-
+        cc();
 
     }
 
@@ -111,6 +169,14 @@ public class CallNowActivity extends AppCompatActivity {
 
 
 
+    private void intentFun(){
+        try{countDownTimer.cancel();}catch (Exception e){}
+
+        try{ myRef.child("AGORA_ROOM").child(appData.getMyUID()).removeEventListener(valueEventListener);}catch (Exception e){}
+
+        Intent intent=new Intent(CallNowActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 
 
@@ -172,6 +238,8 @@ public class CallNowActivity extends AppCompatActivity {
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                             try{
 
+
+
                                                                 AgoraKeyModel agoraKeyModel=snapshot.getValue(AgoraKeyModel.class);
 
                                                                 Log.i("myuid",agoraKeyModel.getPlayer1());
@@ -184,6 +252,10 @@ public class CallNowActivity extends AppCompatActivity {
 
 
                                                                 if(agoraKeyModel.getAccept()==1){
+
+
+                                                                    try{timer.cancel();}catch (Exception e){}
+
 
                                                                     Toast.makeText(CallNowActivity.this, "Call accepted", Toast.LENGTH_LONG).show();
                                                                     myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);
@@ -202,6 +274,9 @@ public class CallNowActivity extends AppCompatActivity {
                                                                     startActivity(intent);
                                                                     finish();
                                                                 }else if(agoraKeyModel.getAccept()==2 || agoraKeyModel.getAccept()==3){
+
+                                                                    try{timer.cancel();}catch (Exception e){}
+
                                                                     OnlineModel onlineModel2=new OnlineModel(onlineModel.getUid(),1);
                                                                     myRef.child("ONLINE").child(onlineModel.getUid()).setValue(onlineModel2).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
@@ -209,6 +284,8 @@ public class CallNowActivity extends AppCompatActivity {
 
                                                                         }
                                                                     });
+
+
 
 
                                                                     if(agoraKeyModel.getAccept()==2){
@@ -232,6 +309,53 @@ public class CallNowActivity extends AppCompatActivity {
                                                                     previousUID=onlineModel.getUid();
                                                                     isAnyPlayerActive();
 
+                                                                }else if(agoraKeyModel.getAccept()==0){
+
+                                                                    try{timer.cancel();}catch (Exception e){}
+
+                                                                    timer=new CountDownTimer(30*1000,1000) {
+                                                                        @Override
+                                                                        public void onTick(long millisUntilFinished) {
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onFinish() {
+
+                                                                            OnlineModel onlineModel2=new OnlineModel(onlineModel.getUid(),1);
+                                                                            myRef.child("ONLINE").child(onlineModel.getUid()).setValue(onlineModel2).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                                                }
+                                                                            });
+
+
+
+
+
+                                                                            Toast.makeText(CallNowActivity.this, "Call was not picked up. Trying more calls, please wait", Toast.LENGTH_LONG).show();
+
+
+
+                                                                            myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeValue();
+
+                                                                            try{
+                                                                                myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);
+                                                                            }catch (Exception e){
+
+                                                                            }
+                                                                            name.setText("CONNECTING\nPLEASE WAIT !");
+                                                                            decline.setVisibility(View.VISIBLE);
+                                                                            declineText.setVisibility(View.VISIBLE);
+                                                                            cc();
+                                                                            previousUID=onlineModel.getUid();
+                                                                            isAnyPlayerActive();
+
+
+
+                                                                        }
+                                                                    }.start();
                                                                 }
 
 
@@ -311,5 +435,33 @@ public class CallNowActivity extends AppCompatActivity {
 
     }
 
+
+    public void adShow(){
+
+        if(mInterstitialAd!=null) {
+            // Step 1: Display the interstitial
+            mInterstitialAd.show(CallNowActivity.this);
+            // Step 2: Attach an AdListener
+            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    intentFun();
+
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    intentFun();
+
+                }
+            });
+
+
+        }else{
+            intentFun();
+        }
+    }
 
 }

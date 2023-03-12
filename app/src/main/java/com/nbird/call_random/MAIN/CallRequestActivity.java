@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -47,10 +49,24 @@ public class CallRequestActivity extends AppCompatActivity {
 
     CountDownTimer countDownTimer;
 
+    AdView mAdView1,mAdView2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_request);
+
+
+        mAdView1 = findViewById(R.id.adView1);
+        mAdView1.setVisibility(View.VISIBLE);
+        AdRequest adRequest1 = new AdRequest.Builder().build();
+        mAdView1.loadAd(adRequest1);
+
+        mAdView2 = findViewById(R.id.adView2);
+        mAdView2.setVisibility(View.VISIBLE);
+        AdRequest adRequest2 = new AdRequest.Builder().build();
+        mAdView2.loadAd(adRequest2);
+
 
 
         appId=getIntent().getStringExtra("appId");
@@ -74,7 +90,7 @@ public class CallRequestActivity extends AppCompatActivity {
         songSetting=new SongSetting(CallRequestActivity.this);
 
 
-        countDownTimer=new CountDownTimer(20*1000,1000) {
+        countDownTimer=new CountDownTimer(12*1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

@@ -16,7 +16,6 @@ public class LoadingDialog {
 
 
     public LoadingDialog(Context context) {
-        this.loadingDialog = loadingDialog;
         this.context=context;
     }
 

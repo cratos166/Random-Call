@@ -44,7 +44,7 @@ public class AgoraAccount {
         String accessToken;
         RtcTokenBuilder tokenBuilder = new RtcTokenBuilder();
         Date date = new Date();
-        int timeStamp = (int) (date.getTime() / 1000 + 1800);
+        int timeStamp = (int) (date.getTime() / 1000 + 2000);
         accessToken = tokenBuilder.buildTokenWithUserAccount(agoraData.getAppId(), agoraData.getAppCertificate(), channelName, "", RtcTokenBuilder.Role.Role_Publisher, timeStamp);
         return accessToken;
     }

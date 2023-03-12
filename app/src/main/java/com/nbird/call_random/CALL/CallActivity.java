@@ -7,6 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nbird.call_random.CALL.MODEL.AgoraAccount;
 import com.nbird.call_random.CALL.MODEL.AgoraData;
 import com.nbird.call_random.DATA.AppData;
+import com.nbird.call_random.DATA.Constant;
 import com.nbird.call_random.MAIN.CallRequestActivity;
 import com.nbird.call_random.MAIN.MainActivity;
 import com.nbird.call_random.R;
@@ -31,6 +42,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +69,41 @@ public class CallActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+
+
+    private InterstitialAd mInterstitialAd;
+    private void loadAds(){
+
+
+        String key= Constant.INTERSTITIAL_ID;
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, key, adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i("TAG", "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d("TAG", loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
+
+
     }
 
     private String appId;
@@ -93,11 +140,26 @@ public class CallActivity extends AppCompatActivity {
 
     ValueEventListener valueEventListener,callValueLisner;
     ConnectionStatus connectionStatus;
-
+    AdView mAdView1,mAdView2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
+
+        loadAds();
+
+        mAdView1 = findViewById(R.id.adView1);
+        mAdView1.setVisibility(View.VISIBLE);
+        AdRequest adRequest1 = new AdRequest.Builder().build();
+        mAdView1.loadAd(adRequest1);
+
+        mAdView2 = findViewById(R.id.adView2);
+        mAdView2.setVisibility(View.VISIBLE);
+        AdRequest adRequest2 = new AdRequest.Builder().build();
+        mAdView2.loadAd(adRequest2);
+
+
+
 
 
         appData=new AppData(CallActivity.this);
@@ -160,7 +222,6 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 if(isMicOn){
                     mRtcEngine.leaveChannel();
                     micImage.setBackgroundResource(R.drawable.mic_off);
@@ -173,9 +234,6 @@ public class CallActivity extends AppCompatActivity {
                     mic_text.setText("Mic On");
                 }
 
-
-
-
             }
         });
 
@@ -183,7 +241,7 @@ public class CallActivity extends AppCompatActivity {
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              intentFun();
+                adShow();
             }
         });
 
@@ -211,11 +269,11 @@ public class CallActivity extends AppCompatActivity {
                     Boolean callOver=snapshot.getValue(Boolean.class);
                     if(callOver){
                         Toast.makeText(CallActivity.this, "User disconnected the call.", Toast.LENGTH_LONG).show();
-                        intentFun();
+                        adShow();
                     }
                 }catch (Exception e){
                     Toast.makeText(CallActivity.this, "User disconnected the call.", Toast.LENGTH_LONG).show();
-                    intentFun();
+                    adShow();
                 }
 
 
@@ -234,15 +292,59 @@ public class CallActivity extends AppCompatActivity {
 
     }
 
+
+    public void adShow(){
+        intentFun();
+    }
+
     private void intentFun(){
+
+
+
+
+
         try{countDownTimer.cancel();}catch (Exception e){}
         loadingDialog.showLoadingDialog();
         myRef.child("AGORA_ROOM").child(mainUID).child("callOver").removeEventListener(valueEventListener);
         connectionStatus.removeConnectionMyCall();
         try{mRtcEngine.leaveChannel();}catch (Exception e){}
         myRef.child("AGORA_ROOM").child(mainUID).removeValue();
-        Intent intent=new Intent(CallActivity.this, MainActivity.class);
-        startActivity(intent);
+
+
+        if(mInterstitialAd!=null) {
+            // Step 1: Display the interstitial
+            mInterstitialAd.show(CallActivity.this);
+            // Step 2: Attach an AdListener
+            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    Intent intent=new Intent(CallActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    Intent intent=new Intent(CallActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+            });
+
+
+        }else{
+            Intent intent=new Intent(CallActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+
+
     }
 
 
@@ -288,7 +390,7 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 Toast.makeText(CallActivity.this, "Call time over", Toast.LENGTH_LONG).show();
-                intentFun();
+                adShow();
 
 
             }

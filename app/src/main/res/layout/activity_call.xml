@@ -8,6 +8,33 @@
     tools:context=".CALL.CallActivity">
 
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        android:visibility="gone"
+        app:adUnitId="@string/bannerId"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        android:visibility="gone"
+        app:adUnitId="@string/bannerId"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/backlitemodeanim"
@@ -33,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/comfortaa"
         android:gravity="center"
@@ -44,7 +71,7 @@
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/backlitemodeanim" />
+        app:layout_constraintTop_toBottomOf="@+id/adView1" />
 
 
     <LinearLayout
@@ -95,9 +122,9 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/propic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/default_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +206,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="41dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:clickable="true"
         android:foreground="?selectableItemBackground"
         android:scaleX="0.9"
@@ -217,11 +244,11 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:clickable="true"
-        android:scaleY="0.9"
-        android:scaleX="0.9"
         android:foreground="?selectableItemBackground"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
         app:cardCornerRadius="14dp"
         app:layout_constraintBottom_toTopOf="@+id/decline"
         app:layout_constraintStart_toEndOf="@+id/decline">
@@ -255,7 +282,7 @@
         android:id="@+id/declineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/comfortaa"
         android:gravity="center"
         android:shadowColor="@color/red"
@@ -263,7 +290,7 @@
         android:text="Decline"
         android:textColor="@color/red"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView2"
         app:layout_constraintEnd_toEndOf="@+id/decline"
         app:layout_constraintStart_toStartOf="@+id/decline" />
 
