@@ -136,9 +136,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 if(username.getText().toString().equals("")){
                     username.setError("Fields cannot be empty!");
-                }else if(dis.getText().toString().length()>120){
+                }else if(dis.getText().toString().length()>180){
 
-                    dis.setError("Fields must be less than 120 characters");
+                    dis.setError("Fields must be less than 180 characters");
                 }
                 else{
                     loadingDialog.showLoadingDialog();
@@ -169,7 +169,7 @@ public class RegistrationActivity extends AppCompatActivity {
         int selectedId=radioGroup.getCheckedRadioButtonId();
         RadioButton radioSexButton=(RadioButton)findViewById(selectedId);
 
-        User user=new User(username.getText().toString(),IMAGE_URL,uid,radioSexButton.getText().toString(),dis.getText().toString());
+        User user=new User(username.getText().toString(),IMAGE_URL,uid,radioSexButton.getText().toString(),dis.getText().toString(),appData.getMyBalance());
 
         myRef.child("USER").child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -177,6 +177,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     loadingDialog.dismissLoadingDialog();
+
+                    appData.setFirstTime();
 
                     appData.setMyName(username.getText().toString());
                     appData.setMyImage(IMAGE_URL);
@@ -187,6 +189,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     appData.setLevel("BEGINNER");
 
                     if(isSetting){
+                        Intent intent=new Intent(RegistrationActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     }else{
                         Intent intent=new Intent(RegistrationActivity.this, MainActivity.class);

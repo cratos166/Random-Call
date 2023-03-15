@@ -28,6 +28,8 @@
         android:background="@drawable/back1"
         android:orientation="vertical">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutDialog"
         android:layout_width="match_parent"

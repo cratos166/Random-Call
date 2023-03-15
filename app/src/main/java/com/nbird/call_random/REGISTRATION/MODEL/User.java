@@ -3,17 +3,27 @@ package com.nbird.call_random.REGISTRATION.MODEL;
 public class User {
 
     String name,imageURL,uid,dis,gender;
+    int balance;
 
 
     public User() {
     }
 
-    public User(String name, String imageURL, String uid, String gender,String dis) {
+    public User(String name, String imageURL, String uid, String gender,String dis,int balance) {
         this.name = name;
         this.imageURL = imageURL;
         this.uid = uid;
         this.gender = gender;
         this.dis = dis;
+        this.balance = balance;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getDis() {

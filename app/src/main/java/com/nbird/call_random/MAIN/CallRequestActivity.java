@@ -198,6 +198,9 @@ public class CallRequestActivity extends AppCompatActivity {
         });
     }
 
+    public void onBackPressed(){
+        intent(2);
+    }
 
     @Override
     public void onDestroy() {

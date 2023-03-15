@@ -7,6 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".CALL.CallActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/decline"
+        app:layout_constraintEnd_toStartOf="@+id/mic"
+        app:layout_constraintStart_toEndOf="@+id/speaker"
+        app:layout_constraintTop_toTopOf="@+id/speaker">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/coin"
+            android:layout_width="40dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:elevation="50dp"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/coin"
+            app:lottie_speed="1" />
+
+        <TextView
+            android:id="@+id/balanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/uniform_level3"
+            android:fontFamily="@font/comfortaa"
+            android:paddingLeft="12dp"
+            android:paddingTop="2dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="3dp"
+            android:shadowColor="@color/text_dis"
+            android:shadowRadius="1"
+            android:text=""
+            android:textColor="@color/text_head"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView2"

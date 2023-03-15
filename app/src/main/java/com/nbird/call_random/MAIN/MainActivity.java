@@ -4,14 +4,20 @@ import static android.app.Notification.DEFAULT_SOUND;
 import static android.app.Notification.DEFAULT_VIBRATE;
 import static android.app.Notification.EXTRA_NOTIFICATION_ID;
 import static android.app.Service.START_NOT_STICKY;
+import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -33,11 +39,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RemoteViews;
@@ -49,10 +59,17 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.google.android.ads.nativetemplates.NativeTemplateStyle;
 import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -71,11 +88,23 @@ import com.nbird.call_random.R;
 import com.nbird.call_random.REGISTRATION.MODEL.User;
 import com.nbird.call_random.REGISTRATION.RegistrationActivity;
 import com.nbird.call_random.UNIVERSAL.DIALOG.LoadingDialog;
+import com.nbird.call_random.UNIVERSAL.DIALOG.LowBalanceDialog;
 import com.nbird.call_random.UNIVERSAL.MODEL.UpdateInfo;
 import com.nbird.call_random.UNIVERSAL.UTILS.ConnectionStatus;
 import com.nbird.call_random.UNIVERSAL.UTILS.NotificationIntentService;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultWithDataListener;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity implements PaymentResultWithDataListener {
 
     Switch onlineSwitch;
     RadioGroup radioGroup;
@@ -89,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
     String levelStr,genderStr;
     RadioButton anyGender,male,female;
-
 
     ValueEventListener valueEventListener,connectionEventLisner;
 
@@ -110,23 +138,32 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     CountDownTimer countDownTimer;
 
-    private void notification(){
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.mic_on)
-                        .setContentTitle("Notifications Example")
-                        .setContentText("This is a test notification");
+    int balance;
+    TextView balanceTextView;
+    RewardedAd rewardedAd;
+    Button rewardAdButton,razorPayButton;
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
 
-        // Add as notification
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
+    int indicator;
+
+    String pp2="";
+
+
+    private static final int PERMISSION_REQ_ID = 22;
+
+    private static final String[] REQUESTED_PERMISSIONS = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+    };
+
+    private boolean checkSelfPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, requestCode);
+            return false;
+        }
+        return true;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +171,63 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID)) {
+
+        }else{
+            Toast.makeText(this, "Please grant the permissions for normal functioning of the app.", Toast.LENGTH_LONG).show();
+        }
+
+        rewardAdsLoader();
+
         appData=new AppData(MainActivity.this);
+
+
+        balanceTextView=(TextView) findViewById(R.id.balanceTextView);
+
+
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+
+        balance=appData.getMyBalance();
+
+        if(balance<40){
+
+
+            if(!formattedDate.equals(appData.getDate())){
+                appData.setMyBalance(40);
+
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(40).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+                balanceTextView.setText(String.valueOf(40));
+
+                appData.setDate(formattedDate);
+
+            }
+
+
+
+        }else{
+            appData.setDate(formattedDate);
+            balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
         MobileAds.initialize(MainActivity.this);
@@ -162,6 +255,18 @@ public class MainActivity extends AppCompatActivity {
         loadingDialog=new LoadingDialog(MainActivity.this);
 
 
+        int BALANCE_ZERO=getIntent().getIntExtra("BALANCE_ZERO",0);
+
+        if(BALANCE_ZERO==1){
+            LowBalanceDialog lowBalanceDialog=new LowBalanceDialog(MainActivity.this,balanceTextView,balanceTextView);
+            lowBalanceDialog.start();
+
+        }
+//        //TODO REMOVE
+//        LowBalanceDialog lowBalanceDialog=new LowBalanceDialog(MainActivity.this,balanceTextView,balanceTextView);
+//        lowBalanceDialog.start();
+
+
         onlineSwitch=(Switch) findViewById(R.id.onlineSwitch);
         onlineStatus=(TextView) findViewById(R.id.onlineStatus);
         beginner=(Button) findViewById(R.id.beginner);
@@ -173,6 +278,10 @@ public class MainActivity extends AppCompatActivity {
         male=(RadioButton) findViewById(R.id.male);
         female=(RadioButton) findViewById(R.id.female);
         profile=(LottieAnimationView) findViewById(R.id.profile);
+        rewardAdButton=(Button) findViewById(R.id.rewardAdButton);
+        razorPayButton=(Button) findViewById(R.id.razorPayButton);
+
+
 
 
         setLayoutUI();
@@ -196,10 +305,28 @@ public class MainActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try{
+                    connectionStatus.removeListner();
+                }catch (Exception e){
+
+                }
+                try{
+                    myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
+                }catch (Exception e){
+
+                }
+
+
+                myRef.child("ONLINE").child(myUID).removeValue();
+
+
+
                 Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
                 intent.putExtra("isSetting",true);
                 startActivity(intent);
 
+                finish();
 
             }
         });
@@ -336,6 +463,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+        rewardAdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rewardedAd != null) {
+
+                    rewardedAd.show(MainActivity.this, new OnUserEarnedRewardListener() {
+                        @Override
+                        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                            // Handle the reward.
+
+                            Toast.makeText(MainActivity.this, "You earned "+Constant.REWARD_AD_MONEY+" coins", Toast.LENGTH_SHORT).show();
+
+                            appData.setMyBalance(appData.getMyBalance()+Constant.REWARD_AD_MONEY);
+
+                            myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+
+                                }
+                            });
+
+
+                            balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+
+                            rewardAdsLoader();
+
+
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(MainActivity.this, "Ad failed to show fullscreen content", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+        razorPayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                packageDialog();
+            }
+        });
+
+
     }
 
 
@@ -431,58 +607,44 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        try{
+                        try {
 
-                            AgoraKeyModel agoraKeyModel=snapshot.getValue(AgoraKeyModel.class);
-
-                            Log.i("myuid",agoraKeyModel.getPlayer1());
-                            Log.i("oppouid",agoraKeyModel.getPlayer2());
-                            Log.i("appId",agoraKeyModel.getAppId());
-                            Log.i("token",agoraKeyModel.getToken());
-                            Log.i("channel",agoraKeyModel.getChannelName());
+                            AgoraKeyModel agoraKeyModel = snapshot.getValue(AgoraKeyModel.class);
 
 
-                                connectionStatus.removeListner();
-                                myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
+                            if (!pp2.equals(agoraKeyModel.getPlayer2())) {
+
+
+
+                            Log.i("myuid", agoraKeyModel.getPlayer1());
+                            Log.i("oppouid", agoraKeyModel.getPlayer2());
+                            Log.i("appId", agoraKeyModel.getAppId());
+                            Log.i("token", agoraKeyModel.getToken());
+                            Log.i("channel", agoraKeyModel.getChannelName());
+
+
+                            connectionStatus.removeListner();
+                            myRef.child("AGORA_ROOM").child(myUID).removeEventListener(valueEventListener);
 //                                Intent intent=new Intent(MainActivity.this,CallRequestActivity.class);
 
 
+                            pp2 = agoraKeyModel.getPlayer2();
 
 
-
-
-
-
-
-
-                         //   finalNotification("Incoming Call","Bob is calling you");
-
-
-
-
-
-
-
-
-
-
-
-
+                            //   finalNotification("Incoming Call","Bob is calling you");
 
 
                             if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.P) {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setComponent(new ComponentName("com.nbird.call_random", "com.nbird.call_random.MAIN.CallRequestActivity"));
-                                intent.putExtra("player1",agoraKeyModel.getPlayer1());
-                                intent.putExtra("player2",agoraKeyModel.getPlayer2());
-                                intent.putExtra("appId",agoraKeyModel.getAppId());
-                                intent.putExtra("token",agoraKeyModel.getToken());
-                                intent.putExtra("channel",agoraKeyModel.getChannelName());
-                                intent.putExtra("mainUID",myUID);
+                                intent.putExtra("player1", agoraKeyModel.getPlayer1());
+                                intent.putExtra("player2", agoraKeyModel.getPlayer2());
+                                intent.putExtra("appId", agoraKeyModel.getAppId());
+                                intent.putExtra("token", agoraKeyModel.getToken());
+                                intent.putExtra("channel", agoraKeyModel.getChannelName());
+                                intent.putExtra("mainUID", myUID);
                                 //  intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intent);
-
-
 
 
                                 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // You need this if starting
@@ -492,7 +654,7 @@ public class MainActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                                 finish();
-                            }else{
+                            } else {
 
                                 ActivityManager.RunningAppProcessInfo myProcess = new ActivityManager.RunningAppProcessInfo();
                                 ActivityManager.getMyMemoryState(myProcess);
@@ -501,20 +663,17 @@ public class MainActivity extends AppCompatActivity {
                                     finalNotification(agoraKeyModel);
 
 
-
-                                }else{
+                                } else {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setComponent(new ComponentName("com.nbird.call_random", "com.nbird.call_random.MAIN.CallRequestActivity"));
-                                    intent.putExtra("player1",agoraKeyModel.getPlayer1());
-                                    intent.putExtra("player2",agoraKeyModel.getPlayer2());
-                                    intent.putExtra("appId",agoraKeyModel.getAppId());
-                                    intent.putExtra("token",agoraKeyModel.getToken());
-                                    intent.putExtra("channel",agoraKeyModel.getChannelName());
-                                    intent.putExtra("mainUID",myUID);
+                                    intent.putExtra("player1", agoraKeyModel.getPlayer1());
+                                    intent.putExtra("player2", agoraKeyModel.getPlayer2());
+                                    intent.putExtra("appId", agoraKeyModel.getAppId());
+                                    intent.putExtra("token", agoraKeyModel.getToken());
+                                    intent.putExtra("channel", agoraKeyModel.getChannelName());
+                                    intent.putExtra("mainUID", myUID);
                                     //  intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(intent);
-
-
 
 
                                     //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // You need this if starting
@@ -527,14 +686,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
 
-
-
-
                             }
 
 
-
-
+                        }
 
 
                         }catch (Exception e){
@@ -597,7 +752,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "YOUR_CHANNEL_ID")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setColor(Color.parseColor("#3D4352"))// notification icon
+                .setColor(Color.parseColor("#98A8D0"))// notification icon
                 .setContentTitle(user.getName()) // title for notification
                 .setContentText("Random Calling...")// message for notification
                 .setAutoCancel(true)
@@ -626,6 +781,13 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
 
+
+
+//                Window window = MainActivity.this.getWindow();
+//                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+//                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+//                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
                 Toast.makeText(MainActivity.this, "Please check the notification bar. You are getting a call.", Toast.LENGTH_LONG).show();
                 countDownTimer=new CountDownTimer(1000*15,1000) {
                     @Override
@@ -647,6 +809,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+                        if(mNotificationManager==null){
+                            mediaPlayer.pause();
+                            mediaPlayer.reset();
+                            mediaPlayer.release();
+                            mediaPlayer=null;
+                        }
 
 
                     }
@@ -658,6 +826,7 @@ public class MainActivity extends AppCompatActivity {
 
                         try{
                             mNotificationManager.cancel(0);
+
                         }catch (Exception e){
 
                         }
@@ -671,6 +840,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
 
+                        onlineSetter();
                     }
                 }.start();
 
@@ -754,6 +924,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     private void noInternetDialog(){
 
 
@@ -826,6 +1008,348 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void rewardAdsLoader(){
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(MainActivity.this, Constant.REWAD_ADS_ID,
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+
+                     //   Toast.makeText(MainActivity.this, loadAdError.toString(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, loadAdError.toString());
+                        rewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd ad) {
+                        rewardedAd = ad;
+                        // Toast.makeText(context, "Ad was loaded", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Ad was loaded.");
+                    }
+                });
+
+
+        try{
+            rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdClicked() {
+                    // Called when a click is recorded for an ad.
+                    Log.d(TAG, "Ad was clicked.");
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    // Called when ad is dismissed.
+                    // Set the ad reference to null so you don't show the ad a second time.
+
+
+
+
+                    Log.d(TAG, "Ad dismissed fullscreen content.");
+                    rewardedAd = null;
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(AdError adError) {
+                    // Called when ad fails to show.
+                    Toast.makeText(MainActivity.this, "Ads failed to load", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Ad failed to show fullscreen content.");
+                    rewardedAd = null;
+                }
+
+                @Override
+                public void onAdImpression() {
+                    // Called when an impression is recorded for an ad.
+
+
+
+                    Log.d(TAG, "Ad recorded an impression.");
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d(TAG, "Ad showed fullscreen content.");
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+
+
+    }
+
+
+
+
+    private void packageDialog(){
+
+
+
+        AlertDialog.Builder builderRemove=new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogTheme);
+        View viewRemove1= LayoutInflater.from(MainActivity.this).inflate(R.layout.package_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer),false);
+        builderRemove.setView(viewRemove1);
+        builderRemove.setCancelable(false);
+
+
+        TextView balanceTextView=(TextView) viewRemove1.findViewById(R.id.balanceTextView);
+        balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+
+        CardView package1=(CardView) viewRemove1.findViewById(R.id.package1);
+        CardView package2=(CardView) viewRemove1.findViewById(R.id.package2);
+        CardView package3=(CardView) viewRemove1.findViewById(R.id.package3);
+        CardView package4=(CardView) viewRemove1.findViewById(R.id.package4);
+
+
+        ImageView cancel=(ImageView) viewRemove1.findViewById(R.id.cancel);
+
+
+
+
+        final AlertDialog alertDialog=builderRemove.create();
+        if(alertDialog.getWindow()!=null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        try{
+            alertDialog.show();
+        }catch (Exception e){
+
+        }
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+            }
+        });
+
+        package1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                indicator=1;
+                startPayment();
+
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
+        package2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                indicator=2;
+                startPayment();
+
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
+        package3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                indicator=3;
+                startPayment();
+
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
+        package4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                indicator=4;
+                startPayment();
+
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+
+
+    }
+
+    public void startPayment() {
+
+        /**
+         * Instantiate Checkout
+         */
+        Checkout checkout = new Checkout();
+
+        /**
+         * Set your logo here
+         */
+        checkout.setImage(R.drawable.ic_launcher_foreground);
+
+        /**
+         * Reference to current activity
+         */
+        final Activity activity = this;
+
+        /**
+         * Pass your payment options to the Razorpay Checkout as a JSONObject
+         */
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Random Caller");
+            options.put("description", "Get gold coins");
+            options.put("image", "https://drive.google.com/file/d/1WH96VlHZORi5C9CQjvnmdkAyp6CQelOt/view?usp=sharing");
+            options.put("theme.color", "#7E92CE");
+            options.put("currency", "INR");
+
+
+//            JSONObject configObj = new JSONObject();
+//            JSONObject displayObj = new JSONObject();
+//            JSONArray hideObj = new JSONArray();
+//            JSONObject methodObj = new JSONObject();
+//            JSONObject preferencesObj = new JSONObject();
+//
+//            preferencesObj.put("show_default_blocks", "true");
+//            methodObj.put("method","upi");
+//            hideObj.put(methodObj);
+//            displayObj.put("hide", hideObj);
+//            displayObj.put("preferences", preferencesObj);
+//            configObj.put("display",displayObj);
+//
+//            options.put("config", configObj);
+
+
+
+
+            switch (indicator){
+                case 1:
+                    options.put("amount", "1500");break;
+                case 2:
+                    options.put("amount", "3000");break;
+                case 3:
+                    options.put("amount", "8000");break;
+                case 4:
+                    options.put("amount", "14000");break;
+
+            }
+
+            checkout.open(activity, options);
+        } catch(Exception e) {
+            Toast.makeText(activity, "Error in starting Razorpay", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onPaymentSuccess(String s, PaymentData paymentData) {
+
+        String paymentId = paymentData.getPaymentId();
+      //  String mail=paymentData.getUserEmail();
+        String number=paymentData.getUserContact();
+
+
+
+
+
+        switch (indicator){
+            case 1:
+                Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show();
+
+                appData.setMyBalance(appData.getMyBalance()+100);
+
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                });
+
+
+                balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+
+                 break;
+            case 2:
+                Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show();
+                appData.setMyBalance(appData.getMyBalance()+250);
+
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                });
+
+
+                balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+                break;
+            case 3:
+                Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show();
+                appData.setMyBalance(appData.getMyBalance()+800);
+
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                });
+
+
+                balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+                break;
+            case 4:
+                Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show();
+
+                appData.setMyBalance(appData.getMyBalance()+1500);
+
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                });
+
+
+                balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+
+                break;
+
+        }
+
+    }
+
+    public void onPaymentError(int i, String s,PaymentData paymentData) {
+        Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
+        Log.i("ERROR",s);
     }
 
 

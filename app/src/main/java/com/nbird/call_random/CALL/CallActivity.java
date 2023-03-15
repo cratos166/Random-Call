@@ -24,15 +24,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nbird.call_random.CALL.MODEL.AgoraAccount;
 import com.nbird.call_random.CALL.MODEL.AgoraData;
 import com.nbird.call_random.DATA.AppData;
 import com.nbird.call_random.DATA.Constant;
-import com.nbird.call_random.MAIN.CallRequestActivity;
 import com.nbird.call_random.MAIN.MainActivity;
 import com.nbird.call_random.R;
 import com.nbird.call_random.REGISTRATION.MODEL.User;
-import com.nbird.call_random.REGISTRATION.RegistrationActivity;
 import com.nbird.call_random.UNIVERSAL.DIALOG.LoadingDialog;
 import com.nbird.call_random.UNIVERSAL.UTILS.ConnectionStatus;
 
@@ -117,14 +114,14 @@ public class CallActivity extends AppCompatActivity {
 
     AgoraData data;
     String player1UID,player2UID;
-    TextView text1,callTimer,name,status,mic_text,speaker_text;
+    TextView text1,callTimer,name,status,mic_text,speaker_text,balanceTextView;
     CardView speaker,mic,decline;
     CircleImageView propic;
     AppData appData;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
     LoadingDialog loadingDialog;
-    CountDownTimer countDownTimer;
+    CountDownTimer countDownTimer,balanceCutterTimer;
 
 
     int minutes=30;
@@ -141,6 +138,11 @@ public class CallActivity extends AppCompatActivity {
     ValueEventListener valueEventListener,callValueLisner;
     ConnectionStatus connectionStatus;
     AdView mAdView1,mAdView2;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +159,7 @@ public class CallActivity extends AppCompatActivity {
         mAdView2.setVisibility(View.VISIBLE);
         AdRequest adRequest2 = new AdRequest.Builder().build();
         mAdView2.loadAd(adRequest2);
+
 
 
 
@@ -179,6 +182,7 @@ public class CallActivity extends AppCompatActivity {
         status=(TextView) findViewById(R.id.status);
         mic_text=(TextView) findViewById(R.id.mic_text);
         speaker_text=(TextView) findViewById(R.id.speaker_text);
+        balanceTextView=(TextView) findViewById(R.id.balanceTextView);
 
         speaker=(CardView) findViewById(R.id.speaker);
         mic=(CardView) findViewById(R.id.mic);
@@ -199,7 +203,52 @@ public class CallActivity extends AppCompatActivity {
         }
 
 
+        balanceTextView.setText(String.valueOf(appData.getMyBalance()));
 
+
+        balanceCutterTimer=new CountDownTimer(1000*30*60,1000*60) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+
+
+                int b=appData.getMyBalance();
+                b--;
+                appData.setMyBalance(b);
+                balanceTextView.setText(String.valueOf(appData.getMyBalance()));
+                myRef.child("USER").child(appData.getMyUID()).child("balance").setValue(appData.getMyBalance()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(appData.getMyBalance()==0){
+                            intentFun(1);
+                        }
+
+
+                    }
+                });
+
+
+                try{mAdView1.destroy();}catch (Exception e){}
+
+                try{mAdView2.destroy();}catch (Exception e){}
+
+
+
+                AdRequest adRequest1 = new AdRequest.Builder().build();
+                mAdView1.loadAd(adRequest1);
+
+                AdRequest adRequest2 = new AdRequest.Builder().build();
+                mAdView2.loadAd(adRequest2);
+
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
 
 
 
@@ -290,19 +339,22 @@ public class CallActivity extends AppCompatActivity {
 
     public void onBackPressed(){
 
+            adShow();
+
     }
 
 
     public void adShow(){
-        intentFun();
+        intentFun(0);
     }
 
-    private void intentFun(){
+    private void intentFun(int i){
 
 
 
 
 
+        try{balanceCutterTimer.cancel();}catch (Exception e){}
         try{countDownTimer.cancel();}catch (Exception e){}
         loadingDialog.showLoadingDialog();
         myRef.child("AGORA_ROOM").child(mainUID).child("callOver").removeEventListener(valueEventListener);
@@ -320,6 +372,9 @@ public class CallActivity extends AppCompatActivity {
                 public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                     super.onAdFailedToShowFullScreenContent(adError);
                     Intent intent=new Intent(CallActivity.this, MainActivity.class);
+                    if(i==1){
+                        intent.putExtra("BALANCE_ZERO",1);
+                    }
                     startActivity(intent);
                     finish();
 
@@ -433,8 +488,27 @@ public class CallActivity extends AppCompatActivity {
     }
     protected void onDestroy() {
         super.onDestroy();
-        mRtcEngine.leaveChannel();
-        mRtcEngine.destroy();
+
+        try{
+            mRtcEngine.leaveChannel();
+        }catch (Exception e){
+
+        }
+        try{
+            mRtcEngine.destroy();
+        }catch (Exception e){
+
+        }
+
+        try{mAdView1.destroy();}catch (Exception e){}
+
+        try{mAdView2.destroy();}catch (Exception e){}
+
+
         Runtime.getRuntime().gc();
     }
+
+
+
+
 }

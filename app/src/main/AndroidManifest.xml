@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nbird.call_random">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -60,14 +62,36 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- REAL ca-app-pub-2384938955607297~6022480346 -->
+        </activity> <!-- REAL ca-app-pub-2384938955607297~4790441415 -->
         <!-- DEMO ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-2384938955607297~4790441415" />
         <meta-data
             android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
             android:value="true" />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_jY0RPxYqlSNNys" />
+
+<!--  DEMO      rzp_test_N5r1riK9QHUU7e-->
+<!--    REAL    rzp_live_jY0RPxYqlSNNys-->
+
+
     </application>
+
+    <queries>
+        <!--google pay-->
+        <package android:name="com.google.android.apps.nbu.paisa.user"/>
+        <!--phonePe-->
+        <package android:name="com.phonepe.app"/>
+        <intent>
+            <action android:name="android.intent.action.SEND"/>
+
+        </intent>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 
 </manifest>

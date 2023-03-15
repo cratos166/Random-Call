@@ -3,6 +3,11 @@ package com.nbird.call_random.DATA;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class AppData {
 
 
@@ -48,6 +53,40 @@ public class AppData {
         editor.commit();
     }
 
+    public void setMyBalance(int value){
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("BALANCE", value);
+        editor.commit();
+    }
+
+    public void setDate(String value){
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("DATE", value);
+        editor.commit();
+    }
+
+    public String getDate(){
+
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        String value = sharedPreferences.getString("DATE",formattedDate);
+        return value;
+    }
+
+    public int getMyBalance(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        int value = sharedPreferences.getInt("BALANCE",100);
+        return value;
+    }
+
 
     public String getMyName(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
@@ -84,18 +123,16 @@ public class AppData {
     public Boolean isFirstTime(){
 
             SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
             Boolean value = sharedPreferences.getBoolean("IS_FIRST_TIME", true);
+            return value;
 
-            if(value){
-                editor.putBoolean("IS_FIRST_TIME", false);
-                editor.apply();
-                return true;
-            }else{
-                return false;
-            }
+    }
 
+    public void setFirstTime(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MY_DATA", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("IS_FIRST_TIME", false);
+        editor.apply();
     }
 
 

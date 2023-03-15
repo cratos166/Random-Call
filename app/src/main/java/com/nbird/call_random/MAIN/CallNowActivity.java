@@ -173,9 +173,11 @@ public class CallNowActivity extends AppCompatActivity {
         try{countDownTimer.cancel();}catch (Exception e){}
 
         try{ myRef.child("AGORA_ROOM").child(appData.getMyUID()).removeEventListener(valueEventListener);}catch (Exception e){}
+        try{myRef.child("ONLINE").removeEventListener(valueEventListener);}catch (Exception e){}
 
         Intent intent=new Intent(CallNowActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -211,7 +213,9 @@ public class CallNowActivity extends AppCompatActivity {
                                             declineText.setVisibility(View.GONE);
 
 
-                                            myRef.child("ONLINE").removeEventListener(valueEventListener);
+                                            try{myRef.child("ONLINE").removeEventListener(valueEventListener);}catch (Exception e){}
+                                            try{ myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);}catch (Exception e){}
+
 
                                             userGot=true;
 
@@ -258,7 +262,10 @@ public class CallNowActivity extends AppCompatActivity {
 
 
                                                                     Toast.makeText(CallNowActivity.this, "Call accepted", Toast.LENGTH_LONG).show();
-                                                                    myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);
+
+                                                                    try{myRef.child("ONLINE").removeEventListener(valueEventListener);}catch (Exception e){}
+                                                                    try{ myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);}catch (Exception e){}
+
 
                                                                     try{countDownTimer.cancel();}catch (Exception e){}
 
@@ -296,12 +303,9 @@ public class CallNowActivity extends AppCompatActivity {
 
 
                                                                     myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeValue();
+                                                                    try{myRef.child("ONLINE").removeEventListener(valueEventListener);}catch (Exception e){}
+                                                                    try{ myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);}catch (Exception e){}
 
-                                                                    try{
-                                                                        myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);
-                                                                    }catch (Exception e){
-
-                                                                    }
                                                                     name.setText("CONNECTING\nPLEASE WAIT !");
                                                                     decline.setVisibility(View.VISIBLE);
                                                                     declineText.setVisibility(View.VISIBLE);
@@ -339,12 +343,8 @@ public class CallNowActivity extends AppCompatActivity {
 
 
                                                                             myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeValue();
-
-                                                                            try{
-                                                                                myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);
-                                                                            }catch (Exception e){
-
-                                                                            }
+                                                                            try{myRef.child("ONLINE").removeEventListener(valueEventListener);}catch (Exception e){}
+                                                                            try{ myRef.child("AGORA_ROOM").child(onlineModel.getUid()).removeEventListener(valueEventListener);}catch (Exception e){}
                                                                             name.setText("CONNECTING\nPLEASE WAIT !");
                                                                             decline.setVisibility(View.VISIBLE);
                                                                             declineText.setVisibility(View.VISIBLE);
@@ -432,7 +432,7 @@ public class CallNowActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-
+        adShow();
     }
 
 

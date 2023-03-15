@@ -23,13 +23,17 @@
         app:lottie_speed="1" />
 
 
+
+
+
+
     <!--     @layout/gnt_medium_template_view -->
     <!--     @layout/gnt_small_template_view -->
     <com.google.android.ads.nativetemplates.TemplateView
         android:id="@+id/my_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:gnt_template_type="@layout/gnt_small_template_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,24 +42,302 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/my_template"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-15dp"
+                android:background="@drawable/non_uniform_level_0"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/coin"
+                    android:layout_width="40dp"
+                    android:layout_height="41dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="4dp"
+                    android:elevation="50dp"
+                    android:scaleType="fitXY"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/coin"
+                    app:lottie_speed="1" />
+
+                <TextView
+                    android:id="@+id/balanceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/uniform_level3"
+                    android:fontFamily="@font/comfortaa"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="3dp"
+                    android:shadowColor="@color/text_dis"
+                    android:shadowRadius="1"
+                    android:text=""
+                    android:textColor="@color/text_head"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="75dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/button_color"
+                android:elevation="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout4" />
 
 
             <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="-15dp"
+                android:background="@drawable/non_uniform_level_0"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:shadowColor="@color/text_dis"
+                    android:shadowRadius="3"
+                    android:text="INFO"
+                    android:textColor="@color/text_head"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:shadowColor="@color/text_dis"
+                    android:shadowRadius="3"
+                    android:text="You can make calls from gold coins. 1 min of each call takes 1 gold coin. Everyday your wallet is refilled automatically by 40 gold coins. In order to make more calls you need to get more gold coins.Get gold coins by two ways :"
+                    android:textColor="@color/text_head"
+                    android:textSize="6dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/uniform_level3"
+                            android:fontFamily="@font/comfortaa"
+                            android:paddingLeft="12dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="3dp"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowRadius="1"
+                            android:text="ADS"
+                            android:textColor="@color/text_head"
+                            android:textSize="8dp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:background="@drawable/uniform_level4"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:fontFamily="@font/comfortaa"
+                                    android:gravity="center"
+                                    android:shadowColor="@color/text_dis"
+                                    android:shadowRadius="3"
+                                    android:text="Get 3 gold coins on each ad watch. Watch Now"
+                                    android:textColor="@color/text_head"
+                                    android:textSize="6dp" />
+
+                                <Button
+                                    android:id="@+id/rewardAdButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="5dp"
+                                    android:background="@drawable/next_button"
+                                    android:fontFamily="@font/comfortaa"
+                                    android:scaleX="0.75"
+                                    android:scaleY="0.75"
+                                    android:shadowColor="@color/text_dis"
+                                    android:shadowDx="-1"
+                                    android:shadowDy="-1"
+                                    android:shadowRadius="5"
+                                    android:text="Watch"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/text_dis"
+                                    android:textSize="8dp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/uniform_level3"
+                            android:fontFamily="@font/comfortaa"
+                            android:paddingLeft="12dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="3dp"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowRadius="1"
+                            android:text="BUY"
+                            android:textColor="@color/text_head"
+                            android:textSize="8dp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:background="@drawable/uniform_level4"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:fontFamily="@font/comfortaa"
+                                    android:gravity="center"
+                                    android:shadowColor="@color/text_dis"
+                                    android:shadowRadius="3"
+                                    android:text="Click to see the packages for gold coins."
+                                    android:textColor="@color/text_head"
+                                    android:textSize="6dp" />
+
+                                <Button
+                                    android:id="@+id/razorPayButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="5dp"
+                                    android:background="@drawable/next_button"
+                                    android:fontFamily="@font/comfortaa"
+                                    android:scaleX="0.75"
+                                    android:scaleY="0.75"
+                                    android:shadowColor="@color/text_dis"
+                                    android:shadowDx="-1"
+                                    android:shadowDy="-1"
+                                    android:shadowRadius="5"
+                                    android:text="Buy Now"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/text_dis"
+                                    android:textSize="8dp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <TextView
@@ -64,10 +346,10 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/comfortaa"
                     android:shadowColor="@color/text_dis"
                     android:shadowRadius="1"
-                    android:layout_weight="1"
                     android:text="Random Call"
                     android:textColor="@color/text_head"
                     android:textSize="20dp"
@@ -77,22 +359,22 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
                     android:layout_gravity="bottom"
-                    android:gravity="right"
+                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/onlineStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:fontFamily="@font/comfortaa"
-                        android:shadowRadius="5"
                         android:shadowColor="@color/green"
                         android:shadowDx="-1"
                         android:shadowDy="-1"
-                        android:layout_marginRight="5dp"
+                        android:shadowRadius="5"
                         android:text="Online"
                         android:textColor="@color/green"
                         android:textSize="10dp"
@@ -102,24 +384,28 @@
                         android:id="@+id/onlineSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:checked="true"
                         android:layout_weight="1"
+                        android:checked="true"
+                        android:clickable="true"
 
                         />
                 </LinearLayout>
-
-
 
 
             </LinearLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/back2"
-                android:layout_margin="15dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/profile"
@@ -138,23 +424,22 @@
                     app:lottie_speed="1" />
 
 
-
                 <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:fontFamily="@font/comfortaa"
-                    android:text="Practice Now"
-                    android:textColor="@color/text_head"
-                    android:textSize="20dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:text="Practice Now"
+                        android:textColor="@color/text_head"
+                        android:textSize="20dp" />
 
                     <TextView
                         android:id="@+id/notice"
@@ -163,14 +448,14 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
+                        android:fontFamily="@font/ubuntu"
                         android:gravity="left"
-                        android:visibility="visible"
                         android:shadowColor="@color/text_dis"
                         android:shadowRadius="3"
-                        android:text="If its taking too long to connect that means no user is available online. Enable online switch in the top right corner of the screen and keep the app in background and do some other work. As soon as some other user comes online you will get a call automatically."
+                        android:text="If its taking too long to connect that means no user is available online. Enable online switch in the top right corner of the screen and keep the app in background and do some other work. As soon as some other user comes online you will get a call automatically.Please don't terminate the app."
                         android:textColor="@color/text_head"
                         android:textSize="8dp"
-                        android:fontFamily="@font/ubuntu"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -185,178 +470,176 @@
                         android:background="@color/button_color" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
-                    <Button
-                        android:id="@+id/beginner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        <Button
+                            android:id="@+id/beginner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/uniform_nextbutton"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowDx="-1"
+                            android:shadowDy="-1"
+                            android:shadowRadius="5"
+                            android:text="Beginner"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text_head"
+                            android:textSize="12dp" />
+
+                        <Button
+                            android:id="@+id/intermediate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowDx="-1"
+                            android:shadowDy="-1"
+                            android:shadowRadius="5"
+                            android:text="Intermediate"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text_head"
+                            android:textSize="10dp" />
+
+
+                        <Button
+                            android:id="@+id/advance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowDx="-1"
+                            android:shadowDy="-1"
+                            android:shadowRadius="5"
+                            android:text="Advance"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text_head"
+                            android:textSize="12dp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/uniform_nextbutton"
-                        android:fontFamily="@font/comfortaa"
-                        android:shadowRadius="5"
-                        android:shadowColor="@color/text_dis"
-                        android:shadowDx="-1"
-                        android:shadowDy="-1"
-                        android:text="Beginner"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_head"
-                        android:textSize="12dp" />
-
-                    <Button
-                        android:id="@+id/intermediate"
-                        android:shadowRadius="5"
-                        android:shadowColor="@color/text_dis"
-                        android:shadowDx="-1"
-                        android:shadowDy="-1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:text="Intermediate"
-                        android:textAllCaps="false"
-                        android:textSize="10dp"
-                        android:textColor="@color/text_head"
-                        android:fontFamily="@font/comfortaa"
-                        android:background="@drawable/border"/>
-
-
-                    <Button
-                        android:id="@+id/advance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:shadowRadius="5"
-                        android:shadowColor="@color/text_dis"
-                        android:shadowDx="-1"
-                        android:shadowDy="-1"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginRight="15dp"
+                        android:background="@color/button_color" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="Advance"
-                        android:textSize="12dp"
-                        android:textAllCaps="false"
-                        android:textColor="@color/text_head"
+                        android:layout_marginRight="15dp"
                         android:fontFamily="@font/comfortaa"
-                        android:background="@drawable/border"/>
+                        android:shadowColor="@color/text_dis"
+                        android:shadowRadius="3"
+                        android:text="Select the gender you want to talk (less priority)"
+                        android:textColor="@color/text_head"
+                        android:textSize="10dp" />
 
 
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9">
+
+                        <RadioButton
+                            android:id="@+id/anyGender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowRadius="1"
+                            android:text="Any"
+                            android:textAlignment="center"
+                            android:textColor="@color/button_color"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowRadius="1"
+                            android:text="Male"
+                            android:textAlignment="center"
+                            android:textColor="@color/button_color"
+                            android:textSize="14dp" />
+
+                        <!--adding a radio button -->
+                        <RadioButton
+                            android:id="@+id/female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:fontFamily="@font/comfortaa"
+                            android:shadowColor="@color/text_dis"
+                            android:shadowRadius="1"
+                            android:text="Female"
+                            android:textAlignment="center"
+                            android:textColor="@color/button_color"
+                            android:textSize="14dp" />
+
+                    </RadioGroup>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/button_color" />
+
+
+                    <Button
+                        android:id="@+id/save"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/next_button"
+                        android:fontFamily="@font/comfortaa"
+                        android:scaleX="0.75"
+                        android:scaleY="0.75"
+                        android:shadowColor="@color/text_dis"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:shadowRadius="5"
+                        android:text="Call Now"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_dis" />
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@color/button_color" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:shadowRadius="3"
-                    android:shadowColor="@color/text_dis"
-                    android:fontFamily="@font/comfortaa"
-                    android:text="Select the gender you want to talk"
-                    android:textColor="@color/text_head"
-                    android:textSize="13dp" />
-
-
-                <RadioGroup
-                    android:id="@+id/radioGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.9"
-                    android:scaleX="0.9"
-                    >
-
-                    <RadioButton
-                        android:id="@+id/anyGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:fontFamily="@font/comfortaa"
-                        android:text="Any"
-                        android:shadowRadius="1"
-                        android:shadowColor="@color/text_dis"
-                        android:textAlignment="center"
-                        android:textColor="@color/button_color"
-                        android:textSize="14dp" />
-
-                    <RadioButton
-                        android:id="@+id/male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/comfortaa"
-                        android:text="Male"
-                        android:shadowRadius="1"
-                        android:shadowColor="@color/text_dis"
-                        android:textAlignment="center"
-                        android:textColor="@color/button_color"
-                        android:textSize="14dp" />
-
-                    <!--adding a radio button -->
-                    <RadioButton
-                        android:id="@+id/female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:shadowRadius="1"
-                        android:shadowColor="@color/text_dis"
-                        android:fontFamily="@font/comfortaa"
-                        android:text="Female"
-                        android:textAlignment="center"
-                        android:textColor="@color/button_color"
-                        android:textSize="14dp" />
-
-                </RadioGroup>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@color/button_color" />
-
-
-                <Button
-                    android:id="@+id/save"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:text="Call Now"
-                    android:scaleX="0.75"
-                    android:scaleY="0.75"
-                    android:shadowRadius="5"
-                    android:layout_marginBottom="15dp"
-                    android:fontFamily="@font/comfortaa"
-                    android:textAllCaps="false"
-                    android:shadowColor="@color/text_dis"
-                    android:shadowDx="-1"
-                    android:shadowDy="-1"
-                    android:textColor="@color/text_dis"
-                    android:background="@drawable/next_button" />
-
-            </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

@@ -10,26 +10,37 @@
         <entry key="app/src/main/res/drawable/back3.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/back4.xml" value="0.224" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.2265" />
+        <entry key="app/src/main/res/drawable/cancel_icon.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/green_button.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/next_button.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/non_uniform_level_0.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/non_uniform_level_null.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/phone.xml" value="0.2265" />
         <entry key="app/src/main/res/drawable/red_button.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/uniform_dark.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/uniform_level3.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/uniform_level4.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/uniform_nextbutton.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/uniform_nextbutton_less.xml" value="0.2265" />
-        <entry key="app/src/main/res/layout/activity_call.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_call.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_call_now.xml" value="0.18229166666666666" />
         <entry key="app/src/main/res/layout/activity_call_request.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_connection_waiter.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/dialog_low_balance.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_model_1.xml" value="0.19630192502532928" />
+        <entry key="app/src/main/res/layout/dialog_model_2.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/incoming_call_layout.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/package_dialog.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_collapsed_notification.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/view_expanded_notification.xml" value="0.22" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1895" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1895" />
         <entry key="nativetemplates/src/main/res/layout/gnt_medium_template_view.xml" value="0.1852355072463768" />
       </map>
     </option>
