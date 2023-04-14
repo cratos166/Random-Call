@@ -49,5 +49,5 @@ In conclusion, if you're looking to make new friends and connect with people fro
 
 
 ### ***PUBLISHED SAMPLE***
-Experience the power of Paper Wind on your own!
+Experience the power of Random Calling on your own!
 [Download now](https://play.google.com/store/apps/details?id=com.nbird.call_random) at Google Play Store
