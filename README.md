@@ -11,29 +11,43 @@ Welcome! ❤
 <img src="https://play-lh.googleusercontent.com/nxHr2ry4aYfs0bchdyV9qkN6RP3kQJ0F77M7MvLE7q833D1JUS3H-W5QYmy-85ZhoE4=w526-h296-rw" width="150px">
 <img src="https://play-lh.googleusercontent.com/lqq2M3jVqNdIPVrMytykKmVTU5VNo0lGdG98GI2KuMNVdEboIwOiaUvQmgSA8OEz2tA=w526-h296-rw" width="150px">
 <img src="https://play-lh.googleusercontent.com/FOe0nWmAUDqg-3S0D_FnrEekxCvNuQyED_-ouebfTvM7sHvrZ-yG70dDvghl9LwtBJU=w526-h296-rw" width="150px">
-<img src="https://play-lh.googleusercontent.com/FOe0nWmAUDqg-3S0D_FnrEekxCvNuQyED_-ouebfTvM7sHvrZ-yG70dDvghl9LwtBJU=w526-h296-rw" width="150px"><img src="https://play-lh.googleusercontent.com/z4tNlZwHxUV7WoU9zcrcWTRej6OQdFx7lAuqoH55l1WBkO0KrUWN-bZSayNq1tkBax8=w526-h296-rw" width="150px">
+<img src="https://play-lh.googleusercontent.com/z4tNlZwHxUV7WoU9zcrcWTRej6OQdFx7lAuqoH55l1WBkO0KrUWN-bZSayNq1tkBax8=w526-h296-rw" width="150px">
 
 
 
 ⭐⭐🌟⭐⭐
 
-# **MULTIPLAYER QUIZ**
+# **Random Calling**
 
-Looking to expand your knowledge of India's rich history, geography, and culture? Look no further than the India GK Quiz - Online app!
+Random Call - Free Voice Call is the ultimate app for making new friends and connecting with people from around the world through voice calls. With our app, you can have real-time conversations with people from different backgrounds and cultures, practice your language skills, and improve your communication abilities.
 
-Our app is designed to help you challenge yourself and learn more about one of the most fascinating countries in the world. With hundreds of questions covering a range of topics, you'll have plenty of opportunities to test your knowledge and discover new facts about India.
+Our app is perfect for anyone who wants to expand their social circle, learn new things, or simply have fun. Here are some of the features that make Random Call - Free Voice Call the best app for making new friends :
 
-Our user-friendly interface and intuitive controls make it easy to jump right in and start playing. Whether you're a seasoned trivia buff or a newcomer to the world of quizzing, our app has something for everyone.
+Random voice calls:
+With Random Call - Free Voice Call, you'll be randomly connected with other users who are looking for someone to talk to. You can have a conversation with anyone from around the world, regardless of age, gender, or location. Our app is perfect for anyone who wants to meet new people and expand their social circle.
 
-Some of the topics covered in our quizzes include Indian history, geography, politics, literature, music, art, and culture. We've worked hard to create a diverse range of questions that will keep you engaged and entertained for hours on end.
+User-friendly interface:
+Our app is easy to use and navigate. You can start a call with just one tap, and our interface is designed to make the calling experience seamless and enjoyable. You'll be able to focus on the conversation, not on the app.
 
-One of the best things about our app is that you can play it online with other players from around the world. Compete with friends, family, and strangers to see who knows India best. You can even track your progress over time and see how you stack up against other players.
+No registration required:
+You don't need to create an account or provide any personal information to use our app. Just download the app and start making calls. We value your privacy and anonymity, and we don't collect any data that can identify you.
 
-In addition to our regular quizzes, we also offer special challenges and competitions that give you the chance to win prizes and earn bragging rights. Keep an eye out for our special events and promotions, which we update regularly.
+Variety of languages:
+Our app supports multiple languages, so you can practice your language skills with native speakers. Whether you're learning a new language or trying to improve your existing skills, Random Call - Free Voice Call has everything you need to succeed.
 
-Our app is regularly updated with new questions and features, so you'll never run out of content. We also welcome feedback from our users and are constantly working to improve the app based on your suggestions.
+Flexible scheduling:
+Our app is designed to fit into your busy schedule. You can make a call anytime, anywhere, and for any duration. Whether you have a few minutes or a few hours to spare, you'll be able to connect with someone and have a meaningful conversation.
 
-So what are you waiting for? Download India GK Quiz - Online today and start expanding your knowledge of this amazing country. With our app, you'll have fun while learning and become an expert on all things India in no time!
+Safe and secure:
+Our app is designed to ensure the safety and security of our users. We have a team of moderators who monitor conversations to ensure that they are appropriate and respectful. We also have a reporting system that allows users to report any abusive or inappropriate behavior.
+
+Community of users:
+Our app has a thriving community of users from around the world. You can connect with other users, share your experiences, and get support and encouragement from your peers. Our community is diverse, inclusive, and welcoming.
+
+In conclusion, if you're looking to make new friends and connect with people from around the world, Random Call - Free Voice Call is the perfect app for you. With our random voice calls, user-friendly interface, no registration required, variety of languages, flexible scheduling, safe and secure environment, and community of users, you'll be able to expand your social circle, practice your language skills, and have fun. Join the global community of users today and start making new friends!
+
+
+
 ### ***PUBLISHED SAMPLE***
 Experience the power of Paper Wind on your own!
-[Download now](https://play.google.com/store/apps/details?id=com.nbird.quiz_india) at Google Play Store
+[Download now](https://play.google.com/store/apps/details?id=com.nbird.call_random) at Google Play Store
